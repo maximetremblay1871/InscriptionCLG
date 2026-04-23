@@ -123,23 +123,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\CommentsRepository.cs" />
+    <Compile Include="Models\Allocation.cs" />
+    <Compile Include="Models\Course.cs" />
     <Compile Include="Models\EmailView.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventsRepository.cs" />
-    <Compile Include="Models\Commentlike.cs" />
-    <Compile Include="Models\Like.cs" />
-    <Compile Include="Models\CommentLikesRepository.cs" />
-    <Compile Include="Models\LikesRepository.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\LoginsRepository.cs" />
-    <Compile Include="Models\MediasRepository.cs" />
-    <Compile Include="Models\Media.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\NotificationsRepository.cs" />
+    <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\RenewPasswordView.cs" />
+    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentsRepository.cs" />
+    <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\TeachersRepository.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
