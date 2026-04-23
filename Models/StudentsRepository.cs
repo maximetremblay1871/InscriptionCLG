@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace InscriptionCLG.Models
+namespace Models
 {
     public class StudentsRepository : Repository<Student>
     {
@@ -32,6 +32,17 @@ namespace InscriptionCLG.Models
         {
             student.Code = GenerateCodeStudent();
             return base.Add(student);
+        }
+        public override bool Delete(int Id)
+        {
+            return base.Delete(Id);
+        }
+        public override bool Update(Student student)
+        {
+            Student storedStudent = Get(student.Id);
+            if (student.Code != storedStudent.Code) // new code
+                student.Code = GenerateCodeStudent();
+            return base.Update(student);
         }
     }
 }
