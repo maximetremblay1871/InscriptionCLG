@@ -197,18 +197,12 @@
 {
     <div class="searchBar">
         <input type="search" id="searchInput" class="section roundedBorder searchBarItem" value="@searchString" placeholder="Recherche...">
-        <div id="categorySelectPanel" class="searchBarItem">
+        <div id="yearSelectPanel" class="searchBarItem">
             <!-- Dynamically refreshed -->
             @{
                 Html.RenderPartial("GetMediasCategoriesList");
             }
 
-        </div>
-        <div id="ownerSelectPanel" class="searchBarItem">
-            <!-- Dynamically refreshed -->
-            @{
-                Html.RenderPartial("GetMediasOwnersList");
-            }
         </div>
     </div>
 }

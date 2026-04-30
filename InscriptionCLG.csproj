@@ -111,6 +111,7 @@
     <Compile Include="Controllers\AccessControl.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\MediasController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\TeachersController.cs" />
@@ -233,6 +234,7 @@
     <Content Include="Views\Medias\GetMediaDetails_2.cshtml" />
     <Content Include="Views\Medias\RenderComments.cshtml" />
     <Content Include="Views\Medias\GetMediaDetails_1.cshtml" />
+    <Content Include="Views\Students\List.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

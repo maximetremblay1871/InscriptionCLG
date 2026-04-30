@@ -1,0 +1,14 @@
+﻿
+@{
+    List<int> years = DAL.DB.Students.StudentsYears();
+    int selectedYear = (int)Session["SelectedYear"];
+}
+
+<select id="yearSelect" class="form-control ellipsis">
+    <option value="" selected>Toutes les années</option>
+    @foreach (var year in years)
+    {
+        string selected = selectedYear == year ? "selected" : "";
+        <option value="@year" @selected>@year</option>
+    }
+</select>
