@@ -9,7 +9,7 @@ using static Controllers.AccessControl;
 namespace Controllers
 {
     [UserAccess(Models.Access.View)]
-    public class StudentController : Controller
+    public class StudentsController : Controller
     {
         const string IllegalAccessUrl = "/Accounts/Login?message=Tentative d'accès illégal!&success=false";
 
@@ -24,7 +24,7 @@ namespace Controllers
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["SortAscending"] == null) Session["SortAscending"] = false;
-            ValidateSelectedCategory();
+            //ValidateSelectedCategory();
         }
 
         private void ResetCurrentInscriptionInfo()
@@ -32,6 +32,7 @@ namespace Controllers
             Session["CurrentInscriptionId"] = 0;
             Session["CurrentInscriptionTitle"] = "";
         }
+        
         /*
         private void ValidateSelectedCategory()
         {
@@ -66,11 +67,15 @@ namespace Controllers
             }
         }
 
+        /*
         public ActionResult Comments(int mediaId, int parentId = 0)
         {
             List<Comment> comments = DB.Comments.ToList().Where(c => c.MediaId == mediaId && c.ParentId == parentId).ToList();
             return PartialView("RenderComments", comments);
         }
+        */
+
+        /*
         public ActionResult GetComments(bool forceRefresh = false)
         {
             if (Session["CurrentMediaId"] != null)
@@ -87,7 +92,9 @@ namespace Controllers
             }
             return null;
         }
+        */
 
+        /*
         public ActionResult GetMediasOwnersList(bool forceRefresh = false)
         {
             try
@@ -107,6 +114,9 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        */
+
+        /*
         public ActionResult GetMediaLikes(bool forceRefresh = false)
         {
             try
@@ -127,6 +137,9 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        */
+
+        /*
         public ActionResult GetMediaDetails_1(bool forceRefresh = false)
         {
             try
@@ -146,7 +159,9 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        */
 
+        /*
         public ActionResult GetMediaDetails_2(bool forceRefresh = false)
         {
             try
@@ -162,7 +177,10 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        */
 
+
+        /*
         // This action produce a partial view of Medias
         // It is meant to be called by an AJAX request (from client script)
         public ActionResult GetMedias(bool forceRefresh = false)
@@ -174,7 +192,7 @@ namespace Controllers
                      .Skip(position)
                      .Take(pageSize)
                      .ToList();
-            */
+            *//*
             try
             {
                 IEnumerable<Media> result = null;
@@ -243,24 +261,32 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        */
 
+        
         public ActionResult List()
         {
-            ResetCurrentMediaInfo();
+            ResetCurrentInscriptionInfo();
             return View();
         }
+        
 
+        /*
         public ActionResult ToggleSearch()
         {
             if (Session["Search"] == null) Session["Search"] = false;
             Session["Search"] = !(bool)Session["Search"];
             return RedirectToAction("List");
         }
+        */
+        /*
         public ActionResult SetMediaSortBy(MediaSortBy mediaSortBy)
         {      // /Medias/SetMediasSortBy?mediaSortBy= 
             Session["MediaSortBy"] = mediaSortBy;
             return RedirectToAction("List");
         }
+        */
+        /*
         public ActionResult ToggleMediaSort()
         {
             int mediaSortBy = (int)Session["MediaSortBy"] + 1;
@@ -268,40 +294,49 @@ namespace Controllers
             Session["MediaSortBy"] = mediaSortBy;
             return RedirectToAction("List");
         }
+        */
+        /*
         public ActionResult ToggleSort()
         {
             Session["SortAscending"] = !(bool)Session["SortAscending"];
             return RedirectToAction("List");
         }
+        */
+        /*
         public ActionResult SortByDate()
         {
             Session["MediaSortBy"] = false;
             return RedirectToAction("List");
         }
-
+        */
+        
         public ActionResult SetSearchString(string value)
         {
             Session["SearchString"] = value.ToLower();
             return RedirectToAction("List");
         }
-
-        public ActionResult SetSearchCategory(string value)
+        
+        
+        public ActionResult SetSearchYear(int value)
         {
-            Session["SelectedCategory"] = value;
+            Session["SelectedYear"] = value;
             return RedirectToAction("List");
         }
-
+        
+        /*
         public ActionResult SetSearchMediasOwner(int value)
         {
             Session["SelectedMediasOwner"] = value;
             return RedirectToAction("List");
         }
-
+        */
+        /*
         public ActionResult About()
         {
             return View();
         }
-
+        */
+        /*
         public ActionResult Details(int id)
         {
             Session["CurrentMediaId"] = id;
@@ -317,13 +352,15 @@ namespace Controllers
             }
             return RedirectToAction("List");
         }
-
+        */
+        /*
         [UserAccess(Models.Access.Write)]
         public ActionResult Create()
         {
             return View(new Media());
         }
-
+        */
+        /*
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
@@ -335,7 +372,8 @@ namespace Controllers
             DB.Events.Add("Create", Media.Title);
             return RedirectToAction("List");
         }
-
+        */
+        /*
         [UserAccess(Models.Access.Write)]
         public ActionResult Edit()
         {
@@ -357,7 +395,8 @@ namespace Controllers
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
         }
-
+        */
+        /*
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
@@ -380,7 +419,8 @@ namespace Controllers
             }
             return RedirectToAction("Details/" + id);
         }
-
+        */
+        /*
         [UserAccess(Models.Access.Write)]
         public ActionResult Delete()
         {
@@ -401,6 +441,8 @@ namespace Controllers
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
         }
+        */
+        /*
 
         // This action is meant to be called by an AJAX request
         // Return true if there is a name conflict
@@ -411,8 +453,10 @@ namespace Controllers
             int id = Session["CurrentMediaId"] != null ? (int)Session["CurrentMediaId"] : 0;
             // Response json value true if name is used in other Medias than the current Media
             return Json(DB.Medias.ToList().Where(c => c.YoutubeId == YoutubeId && c.Id != id).Any(),
-                        JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
+                        JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser *//*);
         }
+        */
+        /*
         public JsonResult CurrentVideoStillAvailable()
         {
             int id = (int)Session["CurrentMediaId"];
@@ -438,9 +482,11 @@ namespace Controllers
                     }
                 }
             }
-            return Json(available, JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
+            return Json(available, JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser *//*);
         }
+        */
 
+        /*
         public ActionResult ToggleMediaLike(int id)
         {
             User connectedUser = (User)Session["ConnectedUser"];
@@ -450,6 +496,8 @@ namespace Controllers
             DB.Events.Add("ToggleMediaLike", media.Title);
             return null;
         }
+        */
+        /*
         [HttpPost]
         public ActionResult CreateComment(int parentId, string commentText)
         {
@@ -467,7 +515,8 @@ namespace Controllers
             }
             return null;
         }
-
+        */
+        /*
         [HttpPost]
         public ActionResult UpdateComment(int commentId, string commentText)
         {
@@ -480,8 +529,8 @@ namespace Controllers
             }
             return null;
         }
-
-
+        */
+        /*
         public ActionResult DeleteComment(int id)
         {
             Comment comment = DB.Comments.Get(id);
@@ -498,12 +547,13 @@ namespace Controllers
             }
             return Redirect(IllegalAccessUrl);
         }
-
+        */
+        /*
         public ActionResult ToggleCommentLike(int id)
         {
             DB.Commentlikes.ToggleLike(id, Models.User.ConnectedUser.Id);
             return null;
         }
-
+        */
     }
 }

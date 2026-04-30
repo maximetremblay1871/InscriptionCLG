@@ -8,6 +8,20 @@ namespace Models
 {
     public class StudentsRepository : Repository<Student>
     {
+        public List<int> StudentsYears()
+        {
+            List<int> years = new List<int>();
+            foreach (Student student in ToList().OrderBy(s => s.Year))
+            {
+                if(years.IndexOf(student.Year) == -1)
+                {
+                    years.Add(student.Year);
+                }
+            }
+
+            return years;
+        }
+
         public bool CodeExist(string code)
         {
             return ToList().Where(t => t.Code.ToLower() == code.ToLower()).FirstOrDefault() != null;

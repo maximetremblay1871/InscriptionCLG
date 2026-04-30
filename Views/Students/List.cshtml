@@ -10,89 +10,85 @@
     <!-- Periodicaly refreshed by object contactListPanel of class AutoRefreshedPanel -->
 </div>
 
+<div id="StudentListPanel">
+    <!-- Auto Refreshed -->
+</div>
+
 @section Scripts {
-        @*
-        <script>
-        
+    <script>
+        /*
         let mediasListAutoRefreshPanel = null;
         let categoriesSelectAutoRefreshPanel = null;
         let ownerSelectAutoRefreshPanel = null;
+        */
+        let studentListAutoRefreshPanel = null;
 
+        
         $(() => {
             newSession(600);
-            mediasListAutoRefreshPanel =
-                new AutoRefreshedPanel(
-                    "MediaListPanel",
-                    "/Medias/GetMedias",
-                    5,
-                    mediasListPostRefresh);
 
+           /*
             categoriesSelectAutoRefreshPanel =
                 new AutoRefreshedPanel(
                     "categorySelectPanel",
                     "/Medias/GetMediasCategoriesList",
-                    -1 /* manually refreshed */,
+                    -1, // Manually Refreshed
                     categoriesSelectPostRefresh);
+            */
 
-            ownerSelectAutoRefreshPanel = new AutoRefreshedPanel("ownerSelectPanel", "/Medias/GetMediasOwnersList", -1 /* manually refreshed */, ownerSelectPostRefresh);
+            studentsListAutoRefreshPanel =
+                new AutoRefreshedPanel(
+                    "StudentListPanel",
+                    "/Students/GetStudents",
+                    5,
+                    studentsListPostRefresh);
+
+            yearsSelectAutoRefreshPanel =
+                new AutoRefreshedPanel(
+                    "yearSelectPanel",
+                    "/Students/GetStudentsYearsList",
+                    -1, // Manually Refreshed
+                    yearsSelectPostRefresh);
 
             let keywordsOnchangeTimer = null;
 
-            $("#searchInput").on('keyup', function () {
+            $("#searchInput").on('keyup', function () {             // searchInput -> dans le header
                 clearTimeout(keywordsOnchangeTimer);
                 /* delay request by 0.5 seconds */
                 keywordsOnchangeTimer = setTimeout(() => {
-                    window.location = "/Medias/SetSearchString?value=" + $("#searchInput").val();
+                    window.location = "/Students/SetSearchString?value=" + $("#searchInput").val();
                 }, 1000 /* 1 seconds */);
             });
             $("#searchInput").on('search', function () { /* click on clear */
                 clearTimeout(keywordsOnchangeTimer);
-                window.location = "/Medias/SetSearchString?value=" + $("#searchInput").val();
+                window.location = "/Students/SetSearchString?value=" + $("#searchInput").val();
             });
             $("#searchInput").on("focus", function () {
-                mediasListAutoRefreshPanel.pause();
+                studentsListAutoRefreshPanel.pause();
             });
             $("#searchInput").on("blur", function () {
-                mediasListAutoRefreshPanel.restart();
+                studentsListAutoRefreshPanel.restart();
             });
 
-            function mediasListPostRefresh() {
-                categoriesSelectAutoRefreshPanel.refresh(true);
-                ownerSelectAutoRefreshPanel.refresh(true);
-                $(".toggleLikeCmd").click(function (e) {
-                    mediasListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
-                    e.preventDefault();
-                });               
+
+            function studentsListPostRefresh() {
+                yearsSelectAutoRefreshPanel.refresh(true);        
             }
 
-            function categoriesSelectPostRefresh() {
 
-                $("#categorySelect").off();
-                $("#categorySelect").on("focus", function () {
-                    mediasListAutoRefreshPanel.pause();
-                });
-                $("#categorySelect").on("blur", function () {
-                    mediasListAutoRefreshPanel.restart();
-                });
-                $("#categorySelect").on('change', function () {
-                    window.location = "/Medias/SetSearchCategory?value=" + $("#categorySelect").val();
-                });
-            }
+            function yearsSelectPostRefresh() {
 
-            function ownerSelectPostRefresh() {
-
-                $("#mediasOwnerSelect").off();
-                $("#mediasOwnerSelect").on("focus", function () {
-                    mediasListAutoRefreshPanel.pause();
+                $("#yearSelect").off();
+                $("#yearSelect").on("focus", function () {
+                    studensListAutoRefreshPanel.pause();
                 });
-                $("#mediasOwnerSelect").on("blur", function () {
-                    mediasListAutoRefreshPanel.restart();
+                $("#yearSelect").on("blur", function () {
+                    studentsListAutoRefreshPanel.restart();
                 });
-                $("#mediasOwnerSelect").on('change', function () {
-                    window.location = "/Medias/SetSearchMediasOwner?value=" + $("#mediasOwnerSelect").val();
+                $("#yearSelect").on('change', function () {
+                    window.location = "/Students/SetSearchYear?value=" + $("#yearSelect").val();
                 });
             }
         })
     </script>
-    *@
 }
