@@ -254,6 +254,11 @@
     <Content Include="Views\Students\GetStudentsYearsList.cshtml" />
     <Content Include="Views\Teachers\GetTeachers.cshtml" />
     <Content Include="Views\Teachers\List.cshtml" />
+    <Content Include="Views\Teachers\TeacherForm.cshtml" />
+    <Content Include="Views\Teachers\Create.cshtml" />
+    <Content Include="Views\Teachers\Edit.cshtml" />
+    <Content Include="Views\Teachers\Details.cshtml" />
+    <Content Include="Views\Teachers\GetTeacherDetails.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

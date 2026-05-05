@@ -107,17 +107,13 @@
                 break;
             case "details":
                 <div id="mainMenuPanel" class="menu">
-                    <div id="likesPanel">
-                        <!-- auto refreshed -->
-                    </div>
-                    @if (userCanWrite && (bool)ViewBag.IsOwner)
-                    {
+ 
                         <a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
                         <i class="cmdIcon fa fa-trash-can"
                            title="Effacer">
                            @*onclick="bootbox.confirm(`<b style=color:red>Effacer le Media : </b><h3>@currentMediaTitle?</h3>`, function(result){ if (result) window.location = '/@controller/Delete'; })">*@
                         </i>
-                    }
+                    
 
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="retour"></a>
                 </div>
@@ -126,8 +122,8 @@
                 if (userCanWrite)
                 {
                     <div id="mainMenuPanel" class="menu">
-                        @*<i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
-                        <a href="@index" class="cmdIcon fa fa-square-xmark" title="Annuler"></a>*@
+                        <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+                        <a href="@index" class="cmdIcon fa fa-square-xmark" title="Annuler"></a>
                     </div>
                 }
                 break;

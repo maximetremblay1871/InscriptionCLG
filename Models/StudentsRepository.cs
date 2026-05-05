@@ -29,10 +29,12 @@ namespace Models
 
         public string GenerateCodeStudent()
         {
-            string code = DateTime.Today.Year.ToString();
+            
             Random random = new Random();
+            string code;
             do
             {
+                code = DateTime.Today.Year.ToString();
                 for (int i = 0; i < 6; i++)
                 {
                     code += random.Next(0,10).ToString();
@@ -41,10 +43,17 @@ namespace Models
             while (CodeExist(code));
             return code;
         }
+        public string GenerateEmailStudent(string FirstName, string LastName)
+        {
+            string email;
+            email = FirstName + "." + LastName + "@clg.qc.ca";
+            return email;
+        }
 
         public override int Add(Student student)
         {
             student.Code = GenerateCodeStudent();
+            student.Email = GenerateEmailStudent(student.FirstName, student.LastName);
             return base.Add(student);
         }
         public override bool Delete(int Id)
