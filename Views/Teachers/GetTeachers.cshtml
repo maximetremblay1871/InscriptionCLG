@@ -1,0 +1,25 @@
+@model IEnumerable<Models.Teacher>
+
+@foreach (var teacher in Model)
+    {
+        <div>
+            <span class="UserSmallAvatar" style="background-image: url('@teacher.Avatar'); border:0.1px solid white; ">
+
+            </span>
+            <span>
+                @teacher.Code
+
+            </span>
+            <span>
+                @teacher.LastName
+
+            </span>
+            <span>
+                @teacher.FirstName
+
+            </span>
+        </div>
+
+
+
+    }

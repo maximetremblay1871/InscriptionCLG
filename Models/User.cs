@@ -78,17 +78,7 @@ namespace Models
             }
         }
 
-        public void DeleteMedias()
-        {
-            foreach (Media media in Medias.Copy())
-            {
-                DB.Medias.Delete(media.Id);
-            }
-        }
-        public void DeleteComments()
-        {
-            DB.Comments.DeleteByOwnerId(Id);
-        }
+
         private static List<int> GetOnlineUser()
         {
             if (HttpRuntime.Cache["onlineUsers"] == null)
