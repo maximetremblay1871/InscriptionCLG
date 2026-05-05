@@ -7,7 +7,7 @@ namespace InscriptionCLG
     {
         public static string DefaultAction()
         {
-            return "/Medias/List";
+            return "/Students/List";
         }
 
         public static void RegisterRoutes(RouteCollection routes)
