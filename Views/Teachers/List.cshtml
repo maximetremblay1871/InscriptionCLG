@@ -1,4 +1,4 @@
-﻿@{ ViewBag.PageTitle = "InscriptionCLG"; }
+@{ ViewBag.PageTitle = "InscriptionCLG"; }
 
 <!--
     The content of this view rely on the one produced
@@ -6,34 +6,22 @@
     Views/Contacts/GetContacts.cshtml partial view
 -->
 
-<div id="MediaListPanel" class="mediaListLayout">
+<div id="TeachersListPanel" class="teacherListLayout">
     <!-- Periodicaly refreshed by object contactListPanel of class AutoRefreshedPanel -->
 </div>
 
 @section Scripts {
     <script>
-
-        let mediasListAutoRefreshPanel = null;
-        let categoriesSelectAutoRefreshPanel = null;
-        let ownerSelectAutoRefreshPanel = null;
+        let teachersListAutoRefreshPanel = null;
 
         $(() => {
             newSession(600);
-            mediasListAutoRefreshPanel =
+            teachersListAutoRefreshPanel =
                 new AutoRefreshedPanel(
-                    "MediaListPanel",
-                    "/Medias/GetMedias",
+                    "TeachersListPanel",
+                    "/Teachers/GetTeachers",
                     5,
-                    mediasListPostRefresh);
-
-            categoriesSelectAutoRefreshPanel =
-                new AutoRefreshedPanel(
-                    "categorySelectPanel",
-                    "/Medias/GetMediasCategoriesList",
-                    -1 /* manually refreshed */,
-                    categoriesSelectPostRefresh);
-
-            ownerSelectAutoRefreshPanel = new AutoRefreshedPanel("ownerSelectPanel", "/Medias/GetMediasOwnersList", -1 /* manually refreshed */, ownerSelectPostRefresh);
+                    teachersListPostRefresh);
 
             let keywordsOnchangeTimer = null;
 
@@ -41,12 +29,12 @@
                 clearTimeout(keywordsOnchangeTimer);
                 /* delay request by 0.5 seconds */
                 keywordsOnchangeTimer = setTimeout(() => {
-                    window.location = "/Medias/SetSearchString?value=" + $("#searchInput").val();
+                    window.location = "/Teachers/SetSearchString?value=" + $("#searchInput").val();
                 }, 1000 /* 1 seconds */);
             });
             $("#searchInput").on('search', function () { /* click on clear */
                 clearTimeout(keywordsOnchangeTimer);
-                window.location = "/Medias/SetSearchString?value=" + $("#searchInput").val();
+                window.location = "/Teachers/SetSearchString?value=" + $("#searchInput").val();
             });
             $("#searchInput").on("focus", function () {
                 mediasListAutoRefreshPanel.pause();
@@ -55,17 +43,13 @@
                 mediasListAutoRefreshPanel.restart();
             });
 
-            function mediaListPostRefresh() {
-                categoriesSelectAutoRefreshPanel.refresh(true);
-                ownerSelectAutoRefreshPanel.refresh(true);
+            function teachersListPostRefresh() {
                 $(".toggleLikeCmd").click(function (e) {
                     mediasListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
                     e.preventDefault();
-                });               
+                });
             }
 
-
-           
-        })
-    </script>
+            
+        })</script>
 }
