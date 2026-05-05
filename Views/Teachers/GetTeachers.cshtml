@@ -3,21 +3,23 @@
 @foreach (var teacher in Model)
     {
         <div>
-            <span class="UserSmallAvatar" style="background-image: url('@teacher.Avatar'); border:0.1px solid white; ">
+            <a href="/Teachers/Details/@teacher.Id" title="Voir les détails de @teacher.FirstName" style="text-decoration:none; width:100% !important">
+                <span class="UserSmallAvatar" style="background-image: url('@teacher.Avatar'); border:0.1px solid white; ">
 
-            </span>
-            <span>
-                @teacher.Code
+                </span>
+                <span>
+                    @teacher.Code
 
-            </span>
-            <span>
-                @teacher.LastName
+                </span>
+                <span>
+                    @teacher.LastName
 
-            </span>
-            <span>
-                @teacher.FirstName
+                </span>
+                <span>
+                    @teacher.FirstName
 
-            </span>
+                </span>
+                </a>
         </div>
 
 

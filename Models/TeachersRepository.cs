@@ -12,6 +12,7 @@ namespace Models
         {
             return ToList().Where(t => t.Code.ToLower() == code.ToLower()).FirstOrDefault() != null;
         }
+ 
         public string GenerateCodeTeacher()
         {
             string code;
@@ -24,10 +25,17 @@ namespace Models
 
             return code;
         }
+        public string GenerateEmailTeacher(string FirstName, string LastName)
+        {
+            string email;
+            email = FirstName + "." + LastName + "@clg.qc.ca";
+            return email;
+        }
 
         public override int Add(Teacher teacher)
         {
             teacher.Code = GenerateCodeTeacher();
+            teacher.Email = GenerateEmailTeacher(teacher.FirstName, teacher.LastName);
             return base.Add(teacher);
         }
         public override bool Update(Teacher teacher)

@@ -1,0 +1,30 @@
+@model Models.Teacher
+
+@if (Model != null)
+{
+    bool first = true;
+    string open = first ? "open" : "";
+    first = false;
+    <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+        <details @open>
+            <summary>@Model.FirstName</summary>
+            <dl>
+
+                <dd>
+                    @Model.FirstName
+                </dd>
+                <dd>
+                    @Model.LastName
+                </dd>
+
+
+                <dd>
+                    <img class="UserSmallAvatar transparentBackground" src="@Model.Avatar" />
+
+                </dd>
+
+            </dl>
+        </details>
+        </div>
+
+        }

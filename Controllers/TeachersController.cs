@@ -87,6 +87,11 @@ namespace Controllers
 
         }
         [UserAccess(Models.Access.Write)]
+        public ActionResult Create()
+        {
+            return View(new Teacher());
+        }
+        [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
 
@@ -139,6 +144,25 @@ namespace Controllers
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
 
+        }
+        public ActionResult GetTeacherDetails(bool forceRefresh = false)
+        {
+            try
+            {
+                InitSessionVarables();
+
+                int teacherId = (int)Session["CurrentTeacherId"];
+                Teacher teacher = DB.Teachers.Get(teacherId);
+                if (DB.Teachers.HasChanged || forceRefresh)
+                {
+                    return PartialView(teacher);
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                return Content("Erreur interne" + ex.Message, "text/html");
+            }
         }
 
     }
