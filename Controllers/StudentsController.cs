@@ -19,18 +19,18 @@ namespace Controllers
             // Each user of this web application have their own Session
             // A Session has a default time out of 20 minutes, after time out it is cleared
 
-            if (Session["CurrentInscriptionId"] == null) Session["CurrentInscriptionId"] = 0;
-            if (Session["CurrentInscriptionTitle"] == null) Session["CurrentInscriptionTitle"] = "";
+            if (Session["CurrentStudentId"] == null) Session["CurrentStudentId"] = 0;
+            if (Session["CurrentStudentTitle"] == null) Session["CurrentStudentTitle"] = "";
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["SortAscending"] == null) Session["SortAscending"] = false;
             //ValidateSelectedCategory();
         }
 
-        private void ResetCurrentInscriptionInfo()
+        private void ResetCurrentStudentInfo()
         {
-            Session["CurrentInscriptionId"] = 0;
-            Session["CurrentInscriptionTitle"] = "";
+            Session["CurrentStudentId"] = 0;
+            Session["CurrentStudentTitle"] = "";
         }
         
         /*
@@ -266,19 +266,17 @@ namespace Controllers
         
         public ActionResult List()
         {
-            ResetCurrentInscriptionInfo();
+            ResetCurrentStudentInfo();
             return View();
         }
         
-
-        /*
         public ActionResult ToggleSearch()
         {
             if (Session["Search"] == null) Session["Search"] = false;
             Session["Search"] = !(bool)Session["Search"];
             return RedirectToAction("List");
         }
-        */
+
         /*
         public ActionResult SetMediaSortBy(MediaSortBy mediaSortBy)
         {      // /Medias/SetMediasSortBy?mediaSortBy= 
@@ -336,43 +334,39 @@ namespace Controllers
             return View();
         }
         */
-        /*
+
+        
         public ActionResult Details(int id)
         {
-            Session["CurrentMediaId"] = id;
-            Media Media = DB.Medias.Get(id);
-            if (Media != null)
+            Session["CurrentStudentId"] = id;
+            Student student = DB.Students.Get(id);
+            if (student != null)
             {
-                bool isOwner = Models.User.ConnectedUser.IsAdmin || Media.OwnerId == Models.User.ConnectedUser.Id;
-                ViewBag.IsOwner = isOwner;
-                Session["CurrentMediaTitle"] = Media.Title;
                 //if (Media.Shared || isOwner)
-                return View(Media);
+                return View(student);
                 //return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
             }
             return RedirectToAction("List");
         }
-        */
-        /*
+        
+        
         [UserAccess(Models.Access.Write)]
         public ActionResult Create()
         {
-            return View(new Media());
+            return View(new Student());
         }
-        */
-        /*
+        
+        
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Create(Media Media, string sharedCB = "off")
+        public ActionResult Create(Student Student, string sharedCB = "off")
         {
-            Media.OwnerId = Models.User.ConnectedUser.Id;
-            Media.Shared = sharedCB == "on";
-            DB.Medias.Add(Media);
-            DB.Events.Add("Create", Media.Title);
+            DB.Students.Add(Student);
+            DB.Events.Add("Create", Student.LastName + ", " + Student.FirstName);
             return RedirectToAction("List");
         }
-        */
+        
         /*
         [UserAccess(Models.Access.Write)]
         public ActionResult Edit()
