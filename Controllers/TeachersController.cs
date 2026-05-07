@@ -13,13 +13,15 @@ namespace Controllers
     {
         private void InitSessionVarables()
         {
-            if (Session["CurrentTeacherId"] == null) Session["CurrentTeacherId"] = 0;
+            if (Session["CurrentId"] == null) Session["CurrentId"] = 0;
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
+            if (Session["CurrentName"] == null) Session["currentName"] = "";
         }
         private void ResetCurrentTeacherInfo()
         {
-            Session["CurrentTeacherId"] = 0;
+            Session["CurrentId"] = 0;
+            Session["CurrentName"] = "";
 
         }
 
@@ -37,7 +39,7 @@ namespace Controllers
 
                     if (search)
                     {
-                        result = result.Where(c => c.LastName.ToLower().Contains(searchString));
+                        result = result.Where(c => c.LastName.ToLower().Contains(searchString)).OrderBy(c=>c.LastName);
                     }
                     else
                     {
@@ -77,10 +79,12 @@ namespace Controllers
         }
         public ActionResult Details(int id)
         {
-            Session["CurrentTeacherId"] = id;
+            Session["CurrentId"] = id;
+            
             Teacher Teacher = DB.Teachers.Get(id);
             if (Teacher != null)
             {
+                Session["CurrentName"] = Teacher.FirstName + " "+ Teacher.LastName;
                 return View(Teacher);
             }
             return RedirectToAction("List");
@@ -104,7 +108,7 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         public ActionResult Edit()
         {
-            int id = Session["CurrentTeacherId"] != null ? (int)Session["CurrentTeacherId"] : 0;
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             if (id != 0)
             {
                 Teacher Teacher = DB.Teachers.Get(id);
@@ -120,7 +124,7 @@ namespace Controllers
         [ValidateAntiForgeryToken()]
         public ActionResult Edit(Teacher Teacher)
         {
-            int id = Session["CurrentTeacherId"] != null ? (int)Session["CurrentTeacherId"] : 0;
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             Teacher storedTeacher = DB.Teachers.Get(id);
             if (storedTeacher != null)
             {
@@ -132,7 +136,7 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         public ActionResult Delete()
         {
-            int id = Session["CurrentTeacherId"] != null ? (int)Session["CurrentTeacherId"] : 0;
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             if (id != 0)
             {
                 Teacher Teacher = DB.Teachers.Get(id);
@@ -151,7 +155,7 @@ namespace Controllers
             {
                 InitSessionVarables();
 
-                int teacherId = (int)Session["CurrentTeacherId"];
+                int teacherId = (int)Session["CurrentId"];
                 Teacher teacher = DB.Teachers.Get(teacherId);
                 if (DB.Teachers.HasChanged || forceRefresh)
                 {

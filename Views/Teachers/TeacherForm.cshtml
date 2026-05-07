@@ -1,4 +1,4 @@
-@model Models.Teacher
+﻿@model Models.Teacher
 @{
 
 }
@@ -7,48 +7,55 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
-    <fieldset>
-        <legend>Prénom</legend>
-        <input id="FirstName"
-               name="FirstName"
-               class="form-control"
-               placeholder="Prénom"
-               value="@Model.FirstName"
-               required
-               RequireMessage="Veuillez entrer un prénom" />
-    </fieldset>
-    <fieldset>
-        <legend>Nom</legend>
-        <input id="LastName"
-               name="LastName"
-               class="form-control"
-               placeholder="Nom"
-               value="@Model.LastName"
-               required
-               RequireMessage="Veuillez entrer un nom" />
-    </fieldset>
-    <fieldset>
-        <label for="StartDare" class="form-label">Date d'embauche </label>
-        <input name="StartDate" class="form-control datepicker" value="@Model.StartDate"
-               required
-               RequireMessage="Veuillez entrer une date"
-               InvalidMessage="Date invalide" />
-    </fieldset>
-    <fieldset>
-        <label for="Phone" class="form-label">Téléphone </label>
-        <input class="form-control Phone"
-               name="Phone"
-               id="Phone"
-               placeholder="(000) 000-0000"
-               required
-               RequireMessage="Veuillez entrer un téléphone"
-               InvalidMessage="Téléphone invalide"
-               value="@Model.Phone" />
-    </fieldset>
-    <fieldset>
-        <legend>Avatar</legend>
-        @Helper.ImageUploader("Avatar", Model.Avatar, "Cliquez glisser une photo")
-    </fieldset>
-    <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
-
-}
+    bool first = true;
+    string open = first ? "open" : "";
+    first = false;
+    <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+        <details @open>
+            <summary>Informations - [@Model.Code]</summary>
+            <fieldset>
+                <legend>Prénom</legend>
+                <input id="FirstName"
+                       name="FirstName"
+                       class="form-control"
+                       placeholder="Prénom"
+                       value="@Model.FirstName"
+                       required
+                       RequireMessage="Veuillez entrer un prénom" />
+            </fieldset>
+            <fieldset>
+                <legend>Nom</legend>
+                <input id="LastName"
+                       name="LastName"
+                       class="form-control"
+                       placeholder="Nom"
+                       value="@Model.LastName"
+                       required
+                       RequireMessage="Veuillez entrer un nom" />
+            </fieldset>
+            <fieldset>
+                <label for="StartDate" class="form-label">Date d'embauche </label>
+                <input name="StartDate" class="form-control datepicker" value="@Model.StartDate"
+                       required
+                       RequireMessage="Veuillez entrer une date"
+                       InvalidMessage="Date invalide" />
+            </fieldset>
+            <fieldset>
+                <label for="Phone" class="form-label">Téléphone </label>
+                <input class="form-control Phone"
+                       name="Phone"
+                       id="Phone"
+                       placeholder="(000) 000-0000"
+                       required
+                       RequireMessage="Veuillez entrer un téléphone"
+                       InvalidMessage="Téléphone invalide"
+                       value="@Model.Phone" />
+            </fieldset>
+            <fieldset>
+                <legend>Avatar</legend>
+                @Helper.ImageUploader("Avatar", Model.Avatar, "Cliquez glisser une photo")
+            </fieldset>
+            <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
+            </details>
+        </div>
+            }
