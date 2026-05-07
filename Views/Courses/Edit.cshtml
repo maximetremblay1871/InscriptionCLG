@@ -1,0 +1,17 @@
+﻿@model Models.Course
+@{
+    ViewBag.Action = "Edit";
+    Html.RenderPartial("CourseForm");
+    ViewBag.PageTitle = "Cours - Modification";
+}
+
+@section Scripts {  <!-- Cette section ne doit pas être placée dans une vue partielle -->
+    <script>
+$(() => {
+            newSession(600);
+            // Nécessaire pour la validation des champs de formulaire
+            initFormValidation();
+            addConflictValidation("/Medias/CheckConflict", 'YoutubeId' /* field unicity check */, 'submit' /* form submit button Id */);
+            // todo prevent from duplicated categories
+      })</script>
+}
