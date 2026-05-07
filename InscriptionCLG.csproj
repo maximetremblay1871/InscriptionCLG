@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\iso-3166.txt" />
+    <Content Include="clg.png" />
     <Content Include="Content\Accounts.css" />
     <Content Include="Content\Icons.css" />
     <Content Include="Content\image-control.css" />
@@ -162,6 +163,7 @@
     <Content Include="Content\UI-Images\Accept.png" />
     <Content Include="Content\UI-Images\admin.png" />
     <Content Include="Content\UI-Images\barcode.png" />
+    <Content Include="Content\UI-Images\clg.png" />
     <Content Include="Content\UI-Images\courriel.png" />
     <Content Include="Content\UI-Images\Loading_icon.gif" />
     <Content Include="Content\UI-Images\Masked.png" />

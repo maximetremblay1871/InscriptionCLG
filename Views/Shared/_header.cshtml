@@ -27,7 +27,40 @@
 <div class="section roundedBorder">
     <div class="headerMenu">
         <i class="siteIcon"></i>
-        <div class="pageTitle"> @ViewBag.PageTitle </div>
+        @if (action == "list")
+        {
+            switch (controller)
+            {
+                case ("teachers"):
+                    <div class="pageTitle">
+                        <a style="color: #e2e2e2" href="/students/List">Étudiants</a>
+                        <a style="color: #e2e2e2" href="/courses/List">Cours</a>
+                        <span style="font-weight:bold">Profs</span>
+                    </div>
+                    break;
+                case ("students"):
+                    <div class="pageTitle">
+                        <span style="font-weight:bold"> Étudiants </span>
+                        <a style="color: #e2e2e2" href="/courses/List">Cours</a>
+                        <a style="color: #e2e2e2" href="/teachers/List">Profs </a>
+                    </div>
+                    break;
+                case ("courses"):
+                    <div class="pageTitle">
+                        <a style="color: #e2e2e2" href="/students/List">Étudiants</a>
+                        <span style="font-weight:bold"> Cours </span>
+                        <a style="color: #e2e2e2" href="/teachers/List">Profs </a>
+                    </div>
+                    break;
+
+
+            }
+        }
+        else
+        {
+            <div class="pageTitle"> @ViewBag.PageTitle </div>
+        }
+
         <!-- Direct action context command icons -->
         @switch (action)
         {
@@ -141,7 +174,12 @@
             case "manageusers":
             case "about":
                 <div id="mainMenuPanel" class="menu">
-                    <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+                    <a href="/students/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+                </div>
+                break;
+            case "renewpasswordcommand":
+                <div id="mainMenuPanel" class="menu">
+                    <a href="/accounts/Login" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
                 </div>
                 break;
         }
