@@ -1,0 +1,16 @@
+﻿@model Models.Course
+@{
+    ViewBag.Action = "Create";
+    Html.RenderPartial("CourseForm");
+    ViewBag.PageTitle = "Cours - Ajout";
+}
+
+@section Scripts { <!-- Cette section ne doit pas être placée dans une vue partielle -->
+    <script>
+$(() => {
+            newSession(600);
+            // Nécessaire pour la validation des champs de formulaire
+            initFormValidation();
+            addConflictValidation("/Medias/CheckConflict", 'YoutubeId' /* field unicity check */, 'submit' /* form submit button Id */);
+        })</script>
+}

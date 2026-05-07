@@ -1,0 +1,18 @@
+﻿@model Models.Course
+
+@if (Model != null)
+{
+
+<dl >
+    <dt style="font-weight:bold; color:black">
+        @Model.Code
+    </dt>
+    <dt style="font-weight:bold; color:black">
+        Session @Model.Session
+    </dt>
+    <dt style="font-weight:bold; color:black">
+        @Model.Title
+    </dt>
+</dl>
+<hr />
+}

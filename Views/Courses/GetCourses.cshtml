@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Models.Course>
+@{
+    Dictionary<int, List<Course>> courses = new Dictionary<int, List<Course>>();
+    bool first = true;
+    string open = first ? "open" : "";
+    first = false;
+}
+
+@foreach (var course in Model)
+{
+    if (course != null)
+    {
+        if (courses.ContainsKey(course.Session))
+        {
+            courses[course.Session].Add(course);
+        }
+        else
+        {
+            courses.Add(course.Session, new List<Course> { course });
+        }
+    }
+}
+    
+    @foreach (var session in courses)
+    {
+        <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+            <details @open>
+                <summary>Session @session.Key</summary>
+                @foreach (var course in session.Value)
+                    {
+                    <a href="/Courses/Details/@course.Id" title="Voir les détails de @course.Title" style="color:blue;">@course.Code </a>
+                        <span>@course.Title</span>
+                        <br />
+                    }
+            </details>
+            </div>
+
+     }
+
+
+
+
+
+              
