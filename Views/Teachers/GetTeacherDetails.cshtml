@@ -1,22 +1,42 @@
-@model Models.Teacher
+﻿@model Models.Teacher
 
 @if (Model != null)
 {
     bool first = true;
     string open = first ? "open" : "";
     first = false;
+    double experience;
+    experience = (DateTime.Now - Model.StartDate).TotalDays / 365.25;
+    
+  
     <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
         <details @open>
-            <summary>@Model.FirstName</summary>
-            <dl>
+            <summary>@Model.FirstName  @Model.LastName</summary>
+            <dl style="font-size : x-small">
 
                 <dd>
-                    @Model.FirstName
+                    <img class="icon small_icon" src="~/Content/UI-Images/barcode.png" />
+                    @Model.Code
                 </dd>
                 <dd>
-                    @Model.LastName
+                    <img class="icon small_icon" src="~/Content/UI-Images/phone.png" />
+                    @Model.Phone
                 </dd>
+                <dd>
+                    <img class="icon small_icon" src="~/Content/UI-Images/courriel.png" />
+                    @Model.Email
+                </dd>
+                <dd>
+                    Embauché le
 
+                </dd>
+                <dd style="margin: 0 !important">
+                    @Helper.When(Model.StartDate)
+                </dd>
+                <dd>
+                    @experience.ToString("0.0") ans d'expérience
+
+                </dd>
 
                 <dd>
                     <img class="UserSmallAvatar transparentBackground" src="@Model.Avatar" />

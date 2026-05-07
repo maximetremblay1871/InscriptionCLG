@@ -1,7 +1,7 @@
 ﻿@model Models.LoginCredential
 
 @{
-    ViewBag.Title = "Connexion";
+    ViewBag.PageTitle = "Connexion";
 
     string currentLoginEmail = Session["currentLoginEmail"] != null ? (string)Session["currentLoginEmail"] : "";
     string eventMessage = (string)Session["LoginMessage"];

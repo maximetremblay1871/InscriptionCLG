@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,9 @@ namespace Models
 
         public string Phone { get; set; }
 
-        public string Avatar { get; set; }
+        const string Avatars_Folder = @"/App_Assets/Users/";
+        const string Default_Avatar = @"no_avatar.png";
+        [ImageAsset(Avatars_Folder, Default_Avatar)]
+        public string Avatar { get; set; } = Avatars_Folder + Default_Avatar;
     }
 }
