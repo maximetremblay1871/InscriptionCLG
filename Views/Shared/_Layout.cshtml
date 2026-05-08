@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    int currentYear = Session["CurrentYear"] != null ? (int)Session["CurrentYear"] : 2026;
+    string currentSession = Session["CurrentSession"] != null ? (string)Session["CurrentSession"] : "Hiver";
+    string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,11 +31,20 @@
         </div>
 
         <div id="footerPanel" class="section footerPanel roundedBorder">
-            &copy; @DateTime.Now.Year - Application Web
-            <img src="/updatingView.gif" 
-                 style="width:24px; display:none" 
+            @if (controller != "accounts")
+            {
+                <a style="text-decoration:none; color:black" href="/courses/sessionChange">
+                    Session Courante : @currentSession @currentYear
+                </a>
+            }
+            else
+            {
+        <span>Inscription CLG @DateTime.Now.Year</span>
+            }
+            <img src="/updatingView.gif"
+                 style="width:24px; display:none"
                  id="updatingView"
-                 title="Rafraichissement de la vue"/>
+                 title="Rafraichissement de la vue" />
         </div>
 
     </div>

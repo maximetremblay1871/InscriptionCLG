@@ -11,7 +11,7 @@ $(() => {
             newSession(600);
             // Nécessaire pour la validation des champs de formulaire
             initFormValidation();
-            addConflictValidation("/Medias/CheckConflict", 'YoutubeId' /* field unicity check */, 'submit' /* form submit button Id */);
+            addConflictValidation("/Courses/CheckConflict", 'Code' /* field unicity check */, 'submit' /* form submit button Id */);
             // todo prevent from duplicated categories
       })</script>
 }

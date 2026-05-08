@@ -35,8 +35,10 @@
             </fieldset>
             <fieldset>
                 <label for="StartDate" class="form-label">Date d'embauche </label>
-                <input name="StartDate" class="form-control datepicker" value="@Model.StartDate"
+                <input name="StartDate" class="form-control" value="@Model.StartDate"
                        required
+                       type="date"
+                       max="@DateTime.Now.ToString("yyyy-MM-dd")"
                        RequireMessage="Veuillez entrer une date"
                        InvalidMessage="Date invalide" />
             </fieldset>

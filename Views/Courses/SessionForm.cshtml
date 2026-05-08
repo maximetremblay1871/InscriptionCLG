@@ -1,0 +1,51 @@
+﻿@{ 
+
+    int currentYear = Session["CurrentYear"] != null ? (int)Session["CurrentYear"] : 2026;
+    string currentSession = Session["CurrentSession"] != null ? (string)Session["CurrentSession"] : "Hiver";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
+
+            <fieldset>
+                <legend>Année</legend>
+             
+                <input id="SessionYear"
+                       name="SessionYear"
+                       class="form-control"
+                       type="number"
+                       value="@currentYear"
+                       required
+                       max="@DateTime.Now.Year"
+                       RequireMessage="Veuillez entrer une année" />
+            </fieldset>
+            <fieldset>
+                <legend>Session</legend>
+                <div>
+                <input id="SessionAutomne"
+                       name="SessionSession"
+                       type="radio"
+                       value="Automne"
+                       @(currentSession == "Automne" ?  "checked" : "")
+                       required
+                       RequireMessage="Veuillez entrer une session" />
+                <label for="SessionAutomne">Automne</label>
+                    </div>
+                <div>
+                    <input id="SessionHiver"
+                           name="SessionSession"
+                           type="radio"
+                           value="Hiver"
+                           required
+                           @(currentSession == "Automne" ?  "" : "checked")
+                           RequireMessage="Veuillez entrer une session" />
+                    <label for="SessionHiver">Hiver</label>
+                </div>
+            </fieldset>
+        
+            <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
+
+}

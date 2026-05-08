@@ -168,6 +168,13 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
+        public JsonResult CheckConflict(DateTime StartDate)
+        {
+           
+            // Response json value true if name is used in other Medias than the current Media
+            return Json(StartDate.Date >= DateTime.Now.Date,
+                        JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
+        }
 
     }
 }
