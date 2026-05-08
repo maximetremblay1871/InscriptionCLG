@@ -37,15 +37,15 @@
                 window.location = "/Courses/SetSearchString?value=" + $("#searchInput").val();
             });
             $("#searchInput").on("focus", function () {
-                mediasListAutoRefreshPanel.pause();
+                coursesListAutoRefreshPanel.pause();
             });
             $("#searchInput").on("blur", function () {
-                mediasListAutoRefreshPanel.restart();
+                coursesListAutoRefreshPanel.restart();
             });
 
             function coursesListPostRefresh() {
                 $(".toggleLikeCmd").click(function (e) {
-                    mediasListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
+                    coursesListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
                     e.preventDefault();
                 });
             }

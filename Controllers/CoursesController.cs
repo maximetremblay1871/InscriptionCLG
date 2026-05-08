@@ -30,7 +30,7 @@ namespace Controllers
             try
             {
                 IEnumerable<Course> result = null;
-                if (DB.Teachers.HasChanged || DB.Students.HasChanged || DB.Students.HasChanged || forceRefresh)
+                if (DB.Teachers.HasChanged || DB.Students.HasChanged || DB.Courses.HasChanged || forceRefresh)
                 {
                     InitSessionVarables();
                     bool search = (bool)Session["Search"];
@@ -95,6 +95,7 @@ namespace Controllers
         {
             return View(new Course());
         }
+      
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
@@ -167,6 +168,25 @@ namespace Controllers
             {
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
+        }
+        public JsonResult CheckConflict(string Code)
+        {
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
+            // Response json value true if name is used in other Medias than the current Media
+            return Json(DB.Courses.ToList().Where(c => c.Code == Code && c.Id != id).Any(),
+                        JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
+        }
+        public ActionResult SessionChange()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult SessionChange(string SessionSession, int SessionYear)
+        {
+            Session["CurrentYear"] = SessionYear;
+            Session["CurrentSession"] = SessionSession;
+            return RedirectToAction("List", "Students");
         }
 
     }

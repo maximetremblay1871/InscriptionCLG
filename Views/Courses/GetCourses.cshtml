@@ -1,9 +1,15 @@
 ﻿@model IEnumerable<Models.Course>
 @{
     Dictionary<int, List<Course>> courses = new Dictionary<int, List<Course>>();
-    bool first = true;
+    bool first = false;
+
+    bool search = Session["Search"] != null ? (bool)Session["Search"] : false;
+
+    if (search)
+    {
+        first = true;
+    }
     string open = first ? "open" : "";
-    first = false;
 }
 
 @foreach (var course in Model)

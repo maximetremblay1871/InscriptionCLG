@@ -1,4 +1,7 @@
-﻿@{ ViewBag.PageTitle = "Profs"; }
+﻿@{ ViewBag.PageTitle = "Profs";
+    string search = Session["Search"] != null ? ((bool)Session["Search"]).ToString() : false.ToString();
+  
+    }
 
 <!--
     The content of this view rely on the one produced
@@ -37,19 +40,31 @@
                 window.location = "/Teachers/SetSearchString?value=" + $("#searchInput").val();
             });
             $("#searchInput").on("focus", function () {
-                mediasListAutoRefreshPanel.pause();
+                teachersListAutoRefreshPanel.pause();
             });
             $("#searchInput").on("blur", function () {
-                mediasListAutoRefreshPanel.restart();
+                teachersListAutoRefreshPanel.restart();
             });
 
             function teachersListPostRefresh() {
-                $(".toggleLikeCmd").click(function (e) {
-                    mediasListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
-                    e.preventDefault();
-                });
-            }
 
-            
+                highlightKeyword()
+            }
+            function highlightKeyword() {
+            if ("@search" == "True") {
+                let keyword = $("#searchInput").val();
+
+                if (keyword.length > 0) {
+                    let lastNames = document.getElementsByClassName('teacherLastName');
+  
+                    Array.from(lastNames).forEach(LastName => {
+                         highlight(keyword, LastName);
+                     });
+
+                }
+            }
+        }
+
+
         })</script>
 }
