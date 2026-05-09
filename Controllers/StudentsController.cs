@@ -180,10 +180,10 @@ namespace Controllers
         */
 
 
-        /*
+        
         // This action produce a partial view of Medias
         // It is meant to be called by an AJAX request (from client script)
-        public ActionResult GetMedias(bool forceRefresh = false)
+        public ActionResult GetStudents(bool forceRefresh = false)
         {
             /*
              * resultPage = (from p in context.Posts
@@ -192,65 +192,33 @@ namespace Controllers
                      .Skip(position)
                      .Take(pageSize)
                      .ToList();
-            *//*
+            */
             try
             {
-                IEnumerable<Media> result = null;
+                IEnumerable<Student> result = null;
 
                 if (DB.Users.HasChanged ||
-                    DB.Medias.HasChanged ||
-                    DB.Likes.HasChanged ||
-                    DB.Comments.HasChanged ||
+                    DB.Students.HasChanged ||
                     forceRefresh)
                 {
                     InitSessionVariables();
+                    Session["StudentYearsList"] = DAL.DB.Students.StudentsYears();
                     bool search = (bool)Session["Search"];
                     string searchString = (string)Session["SearchString"];
 
-                    if (Models.User.ConnectedUser.IsAdmin)
-                        result = DB.Medias.ToList();
-                    else
-                        result = DB.Medias.ToList().Where(c => c.Shared || Models.User.ConnectedUser.Id == c.OwnerId);
+                    result = DB.Students.ToList();
 
                     if (search)
                     {
-                        result = result.Where(c => c.Title.ToLower().Contains(searchString));
+                        // String search
+                        result = result.Where(s =>  s.FirstName.ToLower().Contains(searchString) || 
+                                                    s.LastName.ToLower().Contains(searchString) ||
+                                                    s.Code.ToLower().Contains(searchString));
 
-                        string SelectedCategory = (string)Session["SelectedCategory"];
-                        if (SelectedCategory != "")
-                            result = result.Where(c => c.Category == SelectedCategory);
-
-                        int SelectedMediasOwner = (int)Session["SelectedMediasOwner"];
-                        if (SelectedMediasOwner != 0)
-                            result = result.Where(m => m.OwnerId == SelectedMediasOwner);
-                    }
-
-
-                    if ((bool)Session["SortAscending"])
-                    {
-                        switch ((MediaSortBy)Session["MediaSortBy"])
-                        {
-                            case MediaSortBy.Title:
-                                result = result.OrderBy(c => c.Title); break;
-                            case MediaSortBy.PublishDate:
-                                result = result.OrderBy(c => c.PublishDate); break;
-                            case MediaSortBy.Likes:
-                                result = result.OrderBy(c => c.LikesCount); break;
-                        }
-                    }
-                    else
-                    {
-                        switch ((MediaSortBy)Session["MediaSortBy"])
-                        {
-                            case MediaSortBy.Title:
-                                result = result.OrderByDescending(c => c.Title); break;
-                            case MediaSortBy.PublishDate:
-                                result = result.OrderByDescending(c => c.PublishDate); break;
-                            case MediaSortBy.Likes:
-                                result = result.OrderByDescending(c => c.LikesCount); break;
-                            case MediaSortBy.Comments:
-                                result = result.OrderByDescending(c => c.CommentsCount); break;
-                        }
+                        // Year search
+                        int SelectedYear = (int)Session["SelectedYear"];
+                        if (SelectedYear != 0)
+                            result = result.Where(c => c.Year == SelectedYear);
                     }
                     return PartialView(result);
                 }
@@ -261,7 +229,7 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
-        */
+        
 
         
         public ActionResult List()
