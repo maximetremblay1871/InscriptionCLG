@@ -18,8 +18,6 @@ namespace Models
                     years.Add(student.Year);
                 }
             }
-
-            return years;
         }
 
         public bool CodeExist(string code)

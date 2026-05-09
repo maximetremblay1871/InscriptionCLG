@@ -34,5 +34,7 @@ namespace DAL
             = new TeachersRepository();
         static public CoursesRepository Courses { get; set; }
             = new CoursesRepository();
+        static public RegistrationRepository Registrations { get; set; }
+            = new RegistrationRepository();
     }
 }

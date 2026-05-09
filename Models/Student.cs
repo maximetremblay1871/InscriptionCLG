@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -19,6 +20,12 @@ namespace Models
 
         public string Phone { get; set; }
 
-        public int Year { get; set; } = 2015;
+        [JsonIgnore]
+        public int Year;
+
+        public void CalculateYear()
+        {
+            Year = DAL.DB.Registrations.GetStudentYear(Id);
+        }
     }
 }
