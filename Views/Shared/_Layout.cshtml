@@ -1,6 +1,7 @@
 ﻿@{
-    int currentYear = Session["CurrentYear"] != null ? (int)Session["CurrentYear"] : 2026;
-    string currentSession = Session["CurrentSession"] != null ? (string)Session["CurrentSession"] : "Hiver";
+    int currentYear = Session["CurrentYear"] != null ? (int)Session["CurrentYear"] : DateTime.Now.Year;
+    string autoSession = DateTime.Now.Month > 7 ? "Automne" : "Hiver";
+    string currentSession = Session["CurrentSession"] != null ? (string)Session["CurrentSession"] : autoSession;
     string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
 }
 <!DOCTYPE html>
