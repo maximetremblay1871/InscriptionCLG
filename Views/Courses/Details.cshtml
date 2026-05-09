@@ -1,6 +1,6 @@
-﻿@model Models.Teacher
+﻿@model Models.Course
 @{
-    ViewBag.PageTitle = "Prof - Détails";
+    ViewBag.PageTitle = "Cours - Détails";
 }
 
 <div id="detailsPanel" class="detailsPanel">
@@ -11,7 +11,7 @@
     <script>
         $(() => {
             newSession(600);
-            teacherDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Teachers/GetTeacherDetails", 5, mediaDetailsPostRefresh);
+            courseDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Courses/GetCourseDetails", 5, mediaDetailsPostRefresh);
         })
 
         function mediaDetailsPostRefresh() {

@@ -5,7 +5,7 @@
     string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
     string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString().ToLower();
 
-    /*
+
     bool search = Session["Search"] != null ? (bool)Session["Search"] : false;
     string searchString = Session["SearchString"] != null ? (string)Session["SearchString"] : "";
 
@@ -13,9 +13,9 @@
     string selectedCategory = Session["CurrentSelectedCategory"] != null ? (string)Session["CurrentSelectedCategory"] : "";
 
     bool SearchAscending = Session["SortAscending"] != null ? (bool)Session["SortAscending"] : false;
-    */
-    int currentId = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
 
+    int currentId = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
+    string currentName = Session["CurrentName"] != null ? (string)Session["CurrentName"] : "";
 
 
     bool userConnected = Models.User.ConnectedUser != null;
@@ -27,21 +27,61 @@
 <div class="section roundedBorder">
     <div class="headerMenu">
         <i class="siteIcon"></i>
-        <div class="pageTitle"> @ViewBag.PageTitle </div>
+        @if (action == "list")
+        {
+            switch (controller)
+            {
+                case ("teachers"):
+                    <div class="pageTitle">
+                        <a style="color: #e2e2e2" href="/students/List">Étudiants</a>
+                        <a style="color: #e2e2e2" href="/courses/List">Cours</a>
+                        <span style="font-weight:bold">Profs</span>
+                    </div>
+                    break;
+                case ("students"):
+                    <div class="pageTitle">
+                        <span style="font-weight:bold"> Étudiants </span>
+                        <a style="color: #e2e2e2" href="/courses/List">Cours</a>
+                        <a style="color: #e2e2e2" href="/teachers/List">Profs </a>
+                    </div>
+                    break;
+                case ("courses"):
+                    <div class="pageTitle">
+                        <a style="color: #e2e2e2" href="/students/List">Étudiants</a>
+                        <span style="font-weight:bold"> Cours </span>
+                        <a style="color: #e2e2e2" href="/teachers/List">Profs </a>
+                    </div>
+                    break;
+
+
+            }
+        }
+        else
+        {
+            <div class="pageTitle"> @ViewBag.PageTitle </div>
+        }
+
         <!-- Direct action context command icons -->
         @switch (action)
         {
             case "login": break;
             case "subscribe":
                 <div id="mainMenuPanel" class="menu">
-                    @*<i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
-                    <a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>*@
+                    <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+                    <a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>
                 </div>
                 break;
-            case "editprofil":
+            case "sessionchange":
+            <div id="mainMenuPanel" class="menu">
+                <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+                <a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>
+            </div>
+                    break;
+
+                case "editprofil":
                 <div id="mainMenuPanel" class="menu">
-                    @*<i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
-                    <a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>*@
+                    <i class="cmdIcon submitCmd fa fa-circle-check" title="Soumettre" onclick="document.getElementById('submit').click()"></i>
+                    <a class="cmdIcon fa fa-square-xmark" title="Annuler" onclick="history.back()"></a>
                 </div>
                 break;
             case "list":
@@ -51,7 +91,7 @@
                         <a href="/@controller/Create" class="cmdIcon fa fa-circle-plus" title="Ajouter..."></a>
                     }
 
-                    <a href="/@controller/ToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
+                    <a href="/@controller/ToggleSearch" id="cmdToggleSearch" class="cmdIcon fa fa-search" title="Recherche..."></a>
 
                     <!-- Dropdown menu -->
                     <div id="menu" class="dropdown ms-auto">
@@ -102,7 +142,7 @@
 
                             <div class="dropdown-item item-layout">
                                 <i class="menuIcon fa fa-info-circle"></i>
-                                <a href="/@controller/About">À propos...</a>
+                                <a href="/teachers/About">À propos...</a>
                             </div>
                         </div>
                     </div>
@@ -110,13 +150,13 @@
                 break;
             case "details":
                 <div id="mainMenuPanel" class="menu">
- 
-                        <a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
-                        <i class="cmdIcon fa fa-trash-can"
-                           title="Effacer">
-                           @*onclick="bootbox.confirm(`<b style=color:red>Effacer le Media : </b><h3>@currentMediaTitle?</h3>`, function(result){ if (result) window.location = '/@controller/Delete'; })">*@
-                        </i>
-                    
+
+                    <a href="/@controller/Edit" class="cmdIcon fa fa-pen-to-square" title="Modifier..."></a>
+                    <i class="cmdIcon fa fa-trash-can"
+                       title="Effacer"
+                       onclick="bootbox.confirm(`<b style=color:red>Effacer : </b><h3>@currentName?</h3>`, function(result){ if (result) window.location = '/@controller/Delete'; })">
+                    </i>
+
 
                     <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="retour"></a>
                 </div>
@@ -141,13 +181,26 @@
             case "manageusers":
             case "about":
                 <div id="mainMenuPanel" class="menu">
-                    <a href="/@controller/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+                    <a href="/students/List" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
+                </div>
+                break;
+            case "renewpasswordcommand":
+                <div id="mainMenuPanel" class="menu">
+                    <a href="/accounts/Login" class="cmdIcon fa fa-square-xmark" title="Retour"></a>
                 </div>
                 break;
         }
 
     </div>
 </div>
+@if (search && (controller == "teachers" || controller == "courses") && action == "list")
+{
+    <div class="flex">
+        <input type="search" id="searchInput" class="section roundedBorder flexItem" value="@searchString" placeholder="Recherche...">
+
+
+    </div>
+}
 
 
 

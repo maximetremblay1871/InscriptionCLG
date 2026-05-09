@@ -110,6 +110,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccessControl.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\iso-3166.txt" />
+    <Content Include="clg.png" />
     <Content Include="Content\Accounts.css" />
     <Content Include="Content\Icons.css" />
     <Content Include="Content\image-control.css" />
@@ -161,11 +163,15 @@
     <Content Include="Content\UI-Images\Abort.png" />
     <Content Include="Content\UI-Images\Accept.png" />
     <Content Include="Content\UI-Images\admin.png" />
+    <Content Include="Content\UI-Images\barcode.png" />
+    <Content Include="Content\UI-Images\clg.png" />
+    <Content Include="Content\UI-Images\courriel.png" />
     <Content Include="Content\UI-Images\Loading_icon.gif" />
     <Content Include="Content\UI-Images\Masked.png" />
     <Content Include="Content\UI-Images\na.png" />
     <Content Include="Content\UI-Images\OffLine.png" />
     <Content Include="Content\UI-Images\OnLine.png" />
+    <Content Include="Content\UI-Images\phone.png" />
     <Content Include="Content\UI-Images\PhotoCloudLogo.png" />
     <Content Include="Content\UI-Images\power_user.png" />
     <Content Include="Content\UI-Images\shared.png" />
@@ -263,6 +269,16 @@
     <Content Include="Views\Students\GetStudentDetails.cshtml" />
     <Content Include="Views\Students\StudentForm.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
+    <Content Include="Views\Teachers\About.cshtml" />
+    <Content Include="Views\Courses\List.cshtml" />
+    <Content Include="Views\Courses\GetCourses.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\Edit.cshtml" />
+    <Content Include="Views\Courses\Details.cshtml" />
+    <Content Include="Views\Courses\GetCourseDetails.cshtml" />
+    <Content Include="Views\Courses\CourseForm.cshtml" />
+    <Content Include="Views\Courses\SessionChange.cshtml" />
+    <Content Include="Views\Courses\SessionForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

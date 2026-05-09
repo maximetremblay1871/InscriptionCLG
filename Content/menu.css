@@ -1,4 +1,4 @@
-.cmdIcon {
+﻿.cmdIcon {
     font-size: 1.5rem;
     color: rgb(0, 87, 204);
     margin-right: 4px;
@@ -44,7 +44,7 @@
 }
 
 .siteIcon {
-    background-image: URL('../WebApp.png');
+    background-image: URL('../clg.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

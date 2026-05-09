@@ -1,14 +1,14 @@
 ﻿@model Models.LoginCredential
 
 @{
-    ViewBag.Title = "Connexion";
+    ViewBag.PageTitle = "Connexion";
 
     string currentLoginEmail = Session["currentLoginEmail"] != null ? (string)Session["currentLoginEmail"] : "";
     string eventMessage = (string)Session["LoginMessage"];
     bool eventSuccess = (bool)Session["LoginSuccess"];
     string messageColor = eventSuccess ? "green" : "red";
     string alertIcon = eventSuccess ? "fa-solid fa-circle-exclamation" : "fa-triangle-exclamation";
-    ViewBag.PageTitle = "ViewBag.PageTitle";
+
 }
 
 <br />

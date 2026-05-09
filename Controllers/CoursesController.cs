@@ -9,7 +9,7 @@ using static Controllers.AccessControl;
 namespace Controllers
 {
     [UserAccess(Models.Access.View)]
-    public class TeachersController : Controller
+    public class CoursesController : Controller
     {
         private void InitSessionVarables()
         {
@@ -18,32 +18,32 @@ namespace Controllers
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["CurrentName"] == null) Session["currentName"] = "";
         }
-        private void ResetCurrentTeacherInfo()
+        private void ResetCurrentCourseInfo()
         {
             Session["CurrentId"] = 0;
             Session["CurrentName"] = "";
 
         }
 
-        public ActionResult GetTeachers(bool forceRefresh = false)
+        public ActionResult GetCourses(bool forceRefresh = false)
         {
             try
             {
-                IEnumerable<Teacher> result = null;
-                if (DB.Teachers.HasChanged || DB.Students.HasChanged || forceRefresh)
+                IEnumerable<Course> result = null;
+                if (DB.Teachers.HasChanged || DB.Students.HasChanged || DB.Courses.HasChanged || forceRefresh)
                 {
                     InitSessionVarables();
                     bool search = (bool)Session["Search"];
                     string searchString = (string)Session["SearchString"];
-                    result = DB.Teachers.ToList();
+                    result = DB.Courses.ToList();
 
                     if (search)
                     {
-                        result = result.Where(c => c.LastName.ToLower().Contains(searchString)).OrderBy(c=>c.LastName);
+                        result = result.Where(c => c.Title.ToLower().Contains(searchString)).OrderBy(c => c.Session);
                     }
                     else
                     {
-                        result = result.OrderBy(c => c.LastName);
+                        result = result.OrderBy(c => c.Session);
                     }
                     return PartialView(result);
 
@@ -59,7 +59,7 @@ namespace Controllers
         }
         public ActionResult List()
         {
-            ResetCurrentTeacherInfo();
+            ResetCurrentCourseInfo();
             return View();
         }
         public ActionResult ToggleSearch()
@@ -80,12 +80,12 @@ namespace Controllers
         public ActionResult Details(int id)
         {
             Session["CurrentId"] = id;
-            
-            Teacher Teacher = DB.Teachers.Get(id);
-            if (Teacher != null)
+
+            Course Course = DB.Courses.Get(id);
+            if (Course != null)
             {
-                Session["CurrentName"] = Teacher.FirstName + " "+ Teacher.LastName;
-                return View(Teacher);
+                Session["CurrentName"] = Course.Title;
+                return View(Course);
             }
             return RedirectToAction("List");
 
@@ -93,15 +93,16 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         public ActionResult Create()
         {
-            return View(new Teacher());
+            return View(new Course());
         }
+      
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
 
-        public ActionResult Create(Teacher Teacher)
+        public ActionResult Create(Course Course)
         {
-            DB.Teachers.Add(Teacher);
+            DB.Courses.Add(Course);
             return RedirectToAction("List");
 
         }
@@ -111,10 +112,10 @@ namespace Controllers
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             if (id != 0)
             {
-                Teacher Teacher = DB.Teachers.Get(id);
-                if (Teacher != null)
+                Course Course = DB.Courses.Get(id);
+                if (Course != null)
                 {
-                    return View(Teacher);
+                    return View(Course);
                 }
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
@@ -122,14 +123,14 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Edit(Teacher Teacher)
+        public ActionResult Edit(Course Course)
         {
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
-            Teacher storedTeacher = DB.Teachers.Get(id);
-            if (storedTeacher != null)
+            Course storedCourse = DB.Courses.Get(id);
+            if (storedCourse != null)
             {
-                Teacher.Id = id;
-                DB.Teachers.Update(Teacher);
+                Course.Id = id;
+                DB.Courses.Update(Course);
             }
             return RedirectToAction("Details/" + id);
         }
@@ -139,27 +140,27 @@ namespace Controllers
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             if (id != 0)
             {
-                Teacher Teacher = DB.Teachers.Get(id);
-                if (Teacher != null)
+                Course Course = DB.Courses.Get(id);
+                if (Course != null)
                 {
-                    DB.Teachers.Delete(id);
+                    DB.Courses.Delete(id);
                     return RedirectToAction("List");
                 }
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
 
         }
-        public ActionResult GetTeacherDetails(bool forceRefresh = false)
+        public ActionResult GetCourseDetails(bool forceRefresh = false)
         {
             try
             {
                 InitSessionVarables();
 
-                int teacherId = (int)Session["CurrentId"];
-                Teacher teacher = DB.Teachers.Get(teacherId);
-                if (DB.Teachers.HasChanged || forceRefresh)
+                int courseId = (int)Session["CurrentId"];
+                Course course = DB.Courses.Get(courseId);
+                if (DB.Courses.HasChanged || forceRefresh)
                 {
-                    return PartialView(teacher);
+                    return PartialView(course);
                 }
                 return null;
             }
@@ -168,12 +169,24 @@ namespace Controllers
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
         }
-        public JsonResult CheckConflict(DateTime StartDate)
+        public JsonResult CheckConflict(string Code)
         {
-           
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             // Response json value true if name is used in other Medias than the current Media
-            return Json(StartDate.Date >= DateTime.Now.Date,
+            return Json(DB.Courses.ToList().Where(c => c.Code == Code && c.Id != id).Any(),
                         JsonRequestBehavior.AllowGet /* must have for CORS verification by client browser */);
+        }
+        public ActionResult SessionChange()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult SessionChange(string SessionSession, int SessionYear)
+        {
+            Session["CurrentYear"] = SessionYear;
+            Session["CurrentSession"] = SessionSession;
+            return RedirectToAction("List", "Students");
         }
 
     }

@@ -6,7 +6,7 @@
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true,
-        //yearRange: "-100:-15",
+        //yearRange: "-100:+0",
         dayNamesMin: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
         monthNamesShort: ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."]
     });
@@ -118,5 +118,26 @@ function ajaxActionCall(actionLink) {
             console.log("Result: " + data);
         }
     });
+}
+let minKeywordLenth = 3;
+function highlight(text, elem) {
+    text = text.trim();
+    if (text.length >= minKeywordLenth) {
+        var innerHTML = elem.innerHTML;
+        let startIndex = 0;
+
+        while (startIndex < innerHTML.length) {
+            var normalizedHtml = innerHTML.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            var index = normalizedHtml.indexOf(text, startIndex);
+            let highLightedText = "";
+            if (index >= startIndex) {
+                highLightedText = "<span class='highlight'>" + innerHTML.substring(index, index + text.length) + "</span>";
+                innerHTML = innerHTML.substring(0, index) + highLightedText + innerHTML.substring(index + text.length);
+                startIndex = index + highLightedText.length + 1;
+            } else
+                startIndex = innerHTML.length + 1;
+        }
+        elem.innerHTML = innerHTML;
+    }
 }
 

@@ -1,0 +1,55 @@
+﻿@{ ViewBag.PageTitle = "Cours"; }
+
+<!--
+    The content of this view rely on the one produced
+    by the /Contacts/GetContacts action that call
+    Views/Contacts/GetContacts.cshtml partial view
+-->
+
+<div id="CoursesListPanel" class="courseListLayout">
+    <!-- Periodicaly refreshed by object contactListPanel of class AutoRefreshedPanel -->
+</div>
+
+@section Scripts {
+    <script>
+        let coursesListAutoRefreshPanel = null;
+
+        $(() => {
+            newSession(600);
+            coursesListAutoRefreshPanel =
+                new AutoRefreshedPanel(
+                    "CoursesListPanel",
+                    "/Courses/GetCourses",
+                    5,
+                    coursesListPostRefresh);
+
+            let keywordsOnchangeTimer = null;
+
+            $("#searchInput").on('keyup', function () {
+                clearTimeout(keywordsOnchangeTimer);
+                /* delay request by 0.5 seconds */
+                keywordsOnchangeTimer = setTimeout(() => {
+                    window.location = "/Courses/SetSearchString?value=" + $("#searchInput").val();
+                }, 1000 /* 1 seconds */);
+            });
+            $("#searchInput").on('search', function () { /* click on clear */
+                clearTimeout(keywordsOnchangeTimer);
+                window.location = "/Courses/SetSearchString?value=" + $("#searchInput").val();
+            });
+            $("#searchInput").on("focus", function () {
+                coursesListAutoRefreshPanel.pause();
+            });
+            $("#searchInput").on("blur", function () {
+                coursesListAutoRefreshPanel.restart();
+            });
+
+            function coursesListPostRefresh() {
+                $(".toggleLikeCmd").click(function (e) {
+                    coursesListAutoRefreshPanel.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
+                    e.preventDefault();
+                });
+            }
+
+
+        })</script>
+}
