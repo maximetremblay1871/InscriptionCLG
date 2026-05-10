@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using InscriptionCLG.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,9 @@ namespace Models
 
         public string Phone { get; set; }
 
-        [JsonIgnore]
-        public int Year;
-
-        public void CalculateYear()
-        {
-            Year = DAL.DB.Registrations.GetStudentYear(Id);
-        }
+        [JsonIgnore] public string Fullname => FirstName + " " + LastName;
+        [JsonIgnore] public string Caption => Code + " " + Fullname;
+        [JsonIgnore] public int Year => int.Parse(Code.Substring(0, 4));
+        [JsonIgnore] public List<Registration> Registrations => DAL.DB.Registrations.ToList().Where(r => r.StudentId == Id).ToList();
     }
 }

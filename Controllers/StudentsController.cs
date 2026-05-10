@@ -202,7 +202,7 @@ namespace Controllers
                     forceRefresh)
                 {
                     InitSessionVariables();
-                    Session["StudentYearsList"] = DAL.DB.;
+                    Session["StudentYearsList"] = DAL.DB.Students.StudentsYears();
                     bool search = (bool)Session["Search"];
                     string searchString = (string)Session["SearchString"];
 
@@ -330,8 +330,6 @@ namespace Controllers
         [ValidateAntiForgeryToken()]
         public ActionResult Create(Student student)
         {
-            student.Year = Session["CurrentYear"] != null ? (int)Session["CurrentYear"] : DateTime.Now.Year;
-
             DB.Students.Add(student);
             DB.Events.Add("Create", student.LastName + ", " + student.FirstName);
             return RedirectToAction("List");
