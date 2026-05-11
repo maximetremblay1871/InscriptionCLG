@@ -19,7 +19,7 @@ namespace Controllers
             // Each user of this web application have their own Session
             // A Session has a default time out of 20 minutes, after time out it is cleared
 
-            if (Session["CurrentStudentId"] == null) Session["CurrentStudentId"] = 0;
+            if (Session["CurrentId"] == null) Session["CurrentId"] = 0;
             if (Session["CurrentStudentTitle"] == null) Session["CurrentStudentTitle"] = "";
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
@@ -29,7 +29,7 @@ namespace Controllers
 
         private void ResetCurrentStudentInfo()
         {
-            Session["CurrentStudentId"] = 0;
+            Session["CurrentId"] = 0;
             Session["CurrentStudentTitle"] = "";
         }
         
@@ -58,6 +58,26 @@ namespace Controllers
                 if (search)
                 {
                     return PartialView();
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                return Content("Erreur interne" + ex.Message, "text/html");
+            }
+        }
+
+        public ActionResult GetStudentDetails(bool forceRefresh = false)
+        {
+            try
+            {
+                InitSessionVariables();
+
+                int studentId = (int)Session["CurrentId"];
+                Student student = DB.Students.Get(studentId);
+                if (DB.Students.HasChanged || forceRefresh)
+                {
+                    return PartialView(student);
                 }
                 return null;
             }
@@ -180,7 +200,7 @@ namespace Controllers
         */
 
 
-        
+
         // This action produce a partial view of Medias
         // It is meant to be called by an AJAX request (from client script)
         public ActionResult GetStudents(bool forceRefresh = false)
@@ -306,7 +326,7 @@ namespace Controllers
         
         public ActionResult Details(int id)
         {
-            Session["CurrentStudentId"] = id;
+            Session["CurrentId"] = id;
             Student student = DB.Students.Get(id);
             if (student != null)
             {
@@ -334,7 +354,36 @@ namespace Controllers
             DB.Events.Add("Create", student.LastName + ", " + student.FirstName);
             return RedirectToAction("List");
         }
-        
+
+
+        [UserAccess(Access.Admin)]
+        public ActionResult Edit()
+        {
+            int id = (int)Session["CurrentId"];
+            Student student = DB.Students.Get(id);
+            if (student != null)
+            {
+                ViewBag.Registrations = student.NextSessionCoursesToSelectList;
+                ViewBag.Courses = DB.Courses.NextSessionToSelectList;
+                return View(DB.Students.Get(id));
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost ]
+        [UserAccess(Access.Admin)]
+        public ActionResult Edit(Student student, List<int> selectedCoursesId)
+        {
+            if (student.IsValid() )
+{
+                student.Id = (int)Session["CurrentId"];
+                student.Code = (string)Session["code"];
+                DB.Students.Update(student, selectedCoursesId);
+                return RedirectToAction("Details", new { id = student.Id });
+            }
+            return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
+        }
+
         /*
         [UserAccess(Models.Access.Write)]
         public ActionResult Edit()

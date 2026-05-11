@@ -17,8 +17,8 @@ namespace InscriptionCLG.Models
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public int Year { get; set; }
-        [JsonIgnore] Course Course => DAL.DB.Courses.Get(CourseId);
-        [JsonIgnore] Student Student => DAL.DB.Students.Get(StudentId);
+        [JsonIgnore] public Course Course => DAL.DB.Courses.Get(CourseId);
+        [JsonIgnore] public Student Student => DAL.DB.Students.Get(StudentId);
         [JsonIgnore] public bool IsNextSession => Year == NextSession.Year && NextSession.ValidSessions.Contains(Course.Session);
     }
 }

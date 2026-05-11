@@ -67,5 +67,11 @@ namespace Models
                 student.Code = GenerateCodeStudent();
             return base.Update(student);
         }
+
+        public bool Update(Student student, List<int> selectedCoursesId)
+        {
+            student.UpdateRegistrations(selectedCoursesId);
+            return Update(student);
+        }
     }
 }

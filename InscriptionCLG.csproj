@@ -134,11 +134,14 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\LoginsRepository.cs" />
+    <Compile Include="Models\NextSession.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\NotificationsRepository.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\RenewPasswordView.cs" />
+    <Compile Include="Models\SelectListUtilities.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\RegistrationRepository.cs" />
     <Compile Include="Models\StudentsRepository.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeachersRepository.cs" />
@@ -164,8 +167,10 @@
     <Content Include="Content\UI-Images\Accept.png" />
     <Content Include="Content\UI-Images\admin.png" />
     <Content Include="Content\UI-Images\barcode.png" />
+    <Content Include="Content\UI-Images\cake-candles.png" />
     <Content Include="Content\UI-Images\clg.png" />
     <Content Include="Content\UI-Images\courriel.png" />
+    <Content Include="Content\UI-Images\graduation-cap.png" />
     <Content Include="Content\UI-Images\Loading_icon.gif" />
     <Content Include="Content\UI-Images\Masked.png" />
     <Content Include="Content\UI-Images\na.png" />

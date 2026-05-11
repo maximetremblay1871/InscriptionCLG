@@ -1,8 +1,7 @@
 ﻿@model Models.Student
 @{
     ViewBag.PageTitle = "Détails";
-    int currentMedia = (int)Session["currentStudentId"];
-    User user = Models.User.ConnectedUser;
+    int currentMedia = (int)Session["CurrentId"];
 }
 
 <div id="detailsPanel" class="detailsPanel">
@@ -17,165 +16,11 @@
         $(() => {
             newSession(600);
             mediaDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Students/GetStudentDetails", 5, studentDetailsPostRefresh);
-
-
-            likes = new AutoRefreshedPanel("likesPanel", "/Medias/GetMediaLikes", 5, likesPostRefresh);
-            commentsSection = new AutoRefreshedPanel("commentsSection", "/Medias/GetComments", 5, commentsSectionAttachEvents);
-            //commentsSectionAttachEvents();
         })
-        function likesPostRefresh() {
-            $(".toggleLikeCmd").click(function (e) {
-                likes.command("/Medias/ToggleMediaLike/" + $(this).attr("mediaId"));
-                e.preventDefault();
-            });
-            commentsSection.refresh(true);
-        }
 
-        /**/
-        function mediaDetailsPostRefresh() {
-            mediaDetails_ARP2.refresh(true);
-            HideVideoIfNotAvailable();
-            $(".owner").on('click', function (e) {
-                if (e.shiftKey && e.ctrlKey) {
-                    mediaDetails_ARP1.pause();
-                    let ownerid = $(this).attr("ownerid");
-                    mediaDetails_ARP1.confirmedCommand("Prendre l'identité ?", `/Accounts/ChangeIdentity?userid=${ownerid}`);
-                    mediaDetails_ARP1.restart();
-                }
-            })
-            commentsSection.refresh(true);
-        }
-        /**/
-        function HideVideoIfNotAvailable() {
-            $.ajax({
-                url: "/Medias/CurrentVideoStillAvailable",
-                contentType: "application/json",
-                success: available => {
-                    if (!available) {
-                        $("#Youtube_Player").remove();
-                        $("#detailsPanel_2").remove();
-                        $("#CommentsSection").remove();
-                    }
-                },
-                statusCode: { 401: this.redirect }
-            })
-
-        }
-        function commentsSectionAttachEvents() {
-            $("#commentDetails .fa-thumbs-up").off();
-            $("#commentDetails .fa-thumbs-up").click(function (e) {
-                commentsSection.command("/Medias/ToggleCommentLike/" + $(this).attr("commentId"));
-                e.preventDefault();
-            });
-
-            $(".editCommentLayout").hide();
-            $(".newCommentLayout").hide();
-            $(".responseLayout").hide();
-
-            $(".commentLayout").on('click', function (e) {
-                if (e.shiftKey && e.ctrlKey) {
-                    commentsSection.pause();
-                    let commentId = $(this).attr("commentid");
-                    commentsSection.confirmedCommand("Effacer?", `/Medias/DeleteComment?id=${commentId}`);
-                    commentsSection.restart();
-                }
-            })
-            $(".newCommentCmd").off();
-            $(".newCommentCmd").click(function () {
-                $("#commentDetails").prop('open', true);
-
-                commentsSection.pause();
-                let parentId = $(this).attr("parentId");
-                $(`[createCommentparentId="${parentId}"]`).show();
-                $(`[createCommentparentId="${parentId}"] > textarea`).val("");
-
-                $('#content').animate({
-                    scrollTop: $(`[createCommentparentId="${parentId}"] > textarea`).offset().top
-                }, scrollAnimationSpeed)
-                    .promise()
-                    .done(() => { $(`[createCommentparentId="${parentId}"] > textarea`).focus(); });
-            })
-            $(".abortCreateCommentCmd").off();
-            $(".abortCreateCommentCmd").click(function (event) {
-                event.preventDefault();
-                commentsSection.restart();
-                let parentId = $(this).attr("parentId");
-                $(`[createCommentparentId="${parentId}"]`).hide();
-            })
-
-            $(".createCommentCmd").off();
-            $(".createCommentCmd").click(function (event) {
-                event.preventDefault();
-                let parentId = $(this).attr("parentId");
-                let commentText = $(this).parent().parent().find("textarea").val();
-                commentsSection.postCommand("/Medias/CreateComment", { parentId, commentText });
-                commentsSection.restart();
-            })
-            $(".CreateResponseCommentCmd").off();
-            $(".CreateResponseCommentCmd").click(function () {
-                commentsSection.pause();
-                let parentId = $(this).attr("parentId");
-                console.log($(`[createResponseparentId="${parentId}"]`)[0])
-                $(`[createResponseparentId="${parentId}"]`).show();
-                $(`[createResponseparentId="${parentId}"] > textarea`).val("");
-                $('#content').animate({
-                    scrollTop: $(`[createResponseparentId="${parentId}"] > textarea`).offset().top
-                }, scrollAnimationSpeed)
-                    .promise()
-                    .done(() => { $(`[createResponseparentId="${parentId}"] > textarea`).focus(); });
-
-            })
-            $(".abortCreateResponseCmd").off();
-            $(".abortCreateResponseCmd").click(function (event) {
-                event.preventDefault();
-                commentsSection.restart();
-                let parentId = $(this).attr("parentId");
-                $(`[createResponseparentId="${parentId}"]`).hide();
-            })
-
-            $(".createResponseCmd").off();
-            $(".createResponseCmd").click(function (event) {
-                event.preventDefault();
-                let parentId = $(this).attr("parentId");
-                let commentText = $(this).parent().parent().find("textarea").val();
-                commentsSection.postCommand("/Medias/CreateComment", { parentId, commentText });
-                commentsSection.restart();
-            })
-            $(".editCommentCmd").off();
-            $(".editCommentCmd").click(function () {
-                commentsSection.pause();
-                let id = $(this).attr("commentId");
-                $("#" + id).show();
-                $("#" + id + "> textarea").focus();
-                $("[commentId=" + id + "]").hide();
-            })
-
-            $(".abortEditCommentCmd").off();
-            $(".abortEditCommentCmd").click(function (event) {
-                event.preventDefault();
-                commentsSection.restart();
-                let id = $(this).attr("cmdCommentId");
-                $("#" + id).hide();
-                $("[commentId=" + id + "]").show();
-            })
-
-            $(".updateCommentCmd").off();
-            $(".updateCommentCmd").click(function (event) {
-                event.preventDefault();
-                let commentId = $(this).attr("cmdCommentId");
-                let commentText = $(this).parent().parent().find("textarea").val();
-                commentsSection.postCommand("/Medias/UpdateComment", { commentId, commentText });
-                commentsSection.restart();
-            })
-
-            $(".deleteCommentCmd").off()
-            $(".deleteCommentCmd").click(function (event) {
-                event.preventDefault();
-                commentsSection.pause();
-                let commentId = $(this).attr("cmdCommentId");
-                commentsSection.confirmedCommand("Effacer?", `/Medias/DeleteComment?id=${commentId}`);
-                commentsSection.restart();
-            })
+        
+        function studentDetailsPostRefresh() {
+            // TODO
         }
 
     </script>
