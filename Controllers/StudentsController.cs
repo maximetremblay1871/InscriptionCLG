@@ -24,6 +24,7 @@ namespace Controllers
             if (Session["Search"] == null) Session["Search"] = false;
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["SortAscending"] == null) Session["SortAscending"] = false;
+            if (Session["code"] == null) Session["code"] = "";
             //ValidateSelectedCategory();
         }
 
@@ -322,15 +323,19 @@ namespace Controllers
             return View();
         }
         */
+        
+        
 
         
         public ActionResult Details(int id)
         {
             Session["CurrentId"] = id;
+            
             Student student = DB.Students.Get(id);
             if (student != null)
             {
                 //if (Media.Shared || isOwner)
+                
                 return View(student);
                 //return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
             }
@@ -359,29 +364,34 @@ namespace Controllers
         [UserAccess(Access.Admin)]
         public ActionResult Edit()
         {
-            int id = (int)Session["CurrentId"];
-            Student student = DB.Students.Get(id);
-            if (student != null)
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
+
+            if (id != 0)
             {
+                Student student = DB.Students.Get(id);
                 ViewBag.Registrations = student.NextSessionCoursesToSelectList;
                 ViewBag.Courses = DB.Courses.NextSessionToSelectList;
-                //ViewBag.Courses = DB.Courses.NextSessionToSelectList;
-
-                return View(DB.Students.Get(id));
+                
+                return View(student);
             }
             return RedirectToAction("Index");
         }
 
-        [HttpPost ]
+        [HttpPost]
         [UserAccess(Access.Admin)]
         public ActionResult Edit(Student student, List<int> selectedCoursesId)
         {
-            if (student.IsValid() )
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
+            Student storedStudent = DB.Students.Get(id);
+            if (storedStudent != null )
 {
-                student.Id = (int)Session["CurrentId"];
-                student.Code = (string)Session["code"];
-                DB.Students.Update(student, selectedCoursesId);
-                return RedirectToAction("Details", new { id = student.Id });
+                storedStudent.FirstName = student.FirstName;
+                storedStudent.LastName = student.LastName;
+                storedStudent.BirthDate = student.BirthDate;
+                storedStudent.Email = student.Email;
+                storedStudent.Phone = student.Phone;
+                DB.Students.Update(storedStudent, selectedCoursesId);
+                return RedirectToAction("Details/" + id);
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
         }

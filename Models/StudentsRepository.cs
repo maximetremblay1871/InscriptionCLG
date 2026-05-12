@@ -65,7 +65,15 @@ namespace Models
             Student storedStudent = Get(student.Id);
             if (student.Code != storedStudent.Code) // new code
                 student.Code = GenerateCodeStudent();
-            return base.Update(student);
+            if (storedStudent != null)
+            {
+                storedStudent.FirstName = student.FirstName;
+                storedStudent.LastName = student.LastName;
+                storedStudent.Email = student.Email;
+                storedStudent.Phone = student.Phone;
+                storedStudent.BirthDate = student.BirthDate;
+            }
+            return base.Update(storedStudent);
         }
 
         public bool Update(Student student, List<int> selectedCoursesId)

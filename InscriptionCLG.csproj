@@ -161,7 +161,7 @@
     <Content Include="Content\media.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\popup.css" />
-    <Content Include="Content\Selections.css" />
+    <Content Include="Content\selections.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\UI-Images\Abort.png" />
     <Content Include="Content\UI-Images\Accept.png" />

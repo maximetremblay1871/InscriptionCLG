@@ -23,7 +23,7 @@ namespace InscriptionCLG
                         "~/Content/_layout.css",
                         "~/Content/Accounts.css",
                         "~/Content/popup.css",
-                        "~/Content/Selection.css",
+                        "~/Content/selections.css",
                         "~/Content/site.css",
                         "~/Content/menu.css", 
                         "~/Content/media.css",
