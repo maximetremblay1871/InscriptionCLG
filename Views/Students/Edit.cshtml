@@ -1,0 +1,17 @@
+﻿@model Models.Student
+@{
+    ViewBag.Action = "Edit";
+    Html.RenderPartial("StudentForm");
+    ViewBag.PageTitle = "Étudiant - Modification";
+}
+
+@section Scripts {  <!-- Cette section ne doit pas être placée dans une vue partielle -->
+    <script>
+    $(() => {
+            newSession(600);
+            // Nécessaire pour la validation des champs de formulaire
+            initFormValidation();
+            // todo prevent from duplicated categories
+
+      })</script>
+}

@@ -12,10 +12,10 @@ namespace Models
     public class CoursesRepository : Repository<Course>
     {
         [JsonIgnore]
-        public IEnumerable<Course> CoursesNextSession => ToList().Where(c => NextSession.ValidSessions.Contains(c.Session));
+        public List<Course> CoursesNextSession => ToList().Where(c => NextSession.ValidSessions.Contains(c.Session)).ToList();
 
         [JsonIgnore]
-        public SelectList CoursesToSelectList => SelectListUtilities<Course>.Convert(ToList(), "Caption");
+        public SelectList CoursesToSelectList => SelectListUtilities<Course>.Convert(ToList().ToList(), "Caption");
         
         [JsonIgnore]
         public SelectList NextSessionToSelectList => SelectListUtilities<Course>.Convert(CoursesNextSession, "Caption");

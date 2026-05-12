@@ -284,6 +284,7 @@
     <Content Include="Views\Courses\CourseForm.cshtml" />
     <Content Include="Views\Courses\SessionChange.cshtml" />
     <Content Include="Views\Courses\SessionForm.cshtml" />
+    <Content Include="Views\Students\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

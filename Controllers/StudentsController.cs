@@ -365,6 +365,8 @@ namespace Controllers
             {
                 ViewBag.Registrations = student.NextSessionCoursesToSelectList;
                 ViewBag.Courses = DB.Courses.NextSessionToSelectList;
+                //ViewBag.Courses = DB.Courses.NextSessionToSelectList;
+
                 return View(DB.Students.Get(id));
             }
             return RedirectToAction("Index");
