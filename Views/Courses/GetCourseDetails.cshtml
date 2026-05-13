@@ -1,20 +1,80 @@
 ﻿@model Models.Course
 
+
 @if (Model != null)
 {
+    List<InscriptionCLG.Models.Registration> Registrations = Model.Registrations;
+    Dictionary<int, List<Student>> students = new Dictionary<int, List<Student>>();
+    bool teacher = false;
+    bool first = true;
+    string open = first ? "open" : "";
+    first = false;
+    Teacher Teacher = new Teacher();
+    if (Model.Teacher != null)
+    {
+        teacher = true;
+        Teacher = Model.Teacher;
+    }
 
-<dl >
-    <dt style="font-weight:bold; color:black">
-        @Model.Code
-    </dt>
-    <dt style="font-weight:bold; color:black">
-        Session @Model.Session
-    </dt>
-    <dt style="font-weight:bold; color:black">
-        @Model.Title
-    </dt>
-</dl>
-<hr />
+    foreach (var registration in Registrations)
+    {
+        if (registration != null)
+        {
+            if (students.ContainsKey(registration.Year))
+            {
+                students[registration.Year].Add(registration.Student);
+            }
+            else
+            {
+                students.Add(registration.Year, new List<Student> { registration.Student });
+            }
+        }
+    }
+
+    <dl>
+        <dt style="font-weight:bold; color:black">
+            @Model.Code
+        </dt>
+        <dt style="font-weight:bold; color:black">
+            Session @Model.Session
+        </dt>
+        <dt style="font-weight:bold; color:black">
+            @Model.Title
+        </dt>
+    </dl>
+    <hr />
+    <h2>Étudiants inscrits</h2>
+    if (students.Count == 0)
+    {
+        <h4>Personne est inscrit à @Model.Title</h4>
+    }
+    foreach (var session in students)
+    {
+        <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+            <details @open>
+                <summary>
+                    Cohorte @session.Key
+                    @if (teacher)
+                    {
+                        <a href="/Teachers/Details/@Teacher.Id" title="Voir les détails de @Teacher.LastName">@Teacher.LastName @Teacher.FirstName</a>
+                    }
+else
+                    {
+                        
+                    }
+                
+                </summary>
+                @foreach (var student in session.Value)
+                {
+                    <a href="/Students/Details/@student.Id" title="Voir les détails de @student.Fullname" style="color:blue;">@student.Code </a>
+                    <span>@student.LastName</span>
+                    <span>@student.FirstName</span>
+                    <br />
+                }
+            </details>
+        </div>
+
+    }
 }
 else
 {

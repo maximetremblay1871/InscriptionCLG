@@ -16,9 +16,13 @@ namespace Models
 
         [JsonIgnore]
         public SelectList CoursesToSelectList => SelectListUtilities<Course>.Convert(ToList().ToList(), "Caption");
-        
         [JsonIgnore]
         public SelectList NextSessionToSelectList => SelectListUtilities<Course>.Convert(CoursesNextSession, "Caption");
+        [JsonIgnore]
+        public List<Course> CoursesNextSessionTeacher => ToList().Where(c => c.Allocations.Count == 0).
+        Where(c => NextSession.ValidSessions.Contains(c.Session)).ToList();
+        [JsonIgnore]
+        public SelectList NextSessionToSelectListTeacher => SelectListUtilities<Course>.Convert(CoursesNextSessionTeacher, "Caption");
 
         public bool CodeExist(string code)
         {
@@ -36,6 +40,11 @@ namespace Models
         public override bool Update(Course data)
         {
             return base.Update(data);
+        }
+        public  bool Update(Course course, List<int> selectedCoursesId)
+        {
+            course.UpdateRegistrations(selectedCoursesId);
+            return Update(course);
         }
     }
 }
