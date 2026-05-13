@@ -1,5 +1,15 @@
 ﻿@model Models.Course
 @{
+    bool creating = ViewBag.Action == "Create";
+    string session;
+    if (Model.Session % 2 == 1)
+    {
+        session = "Inscriptions : Session Automne " + InscriptionCLG.Models.NextSession.CurrentDate.Year;
+    }
+    else
+    {
+        session = "Inscriptions : Session Hiver " + InscriptionCLG.Models.NextSession.Year;
+    }
 
 }
 
@@ -46,6 +56,14 @@
                        required
                        RequireMessage="Veuillez entrer un titre" />
             </fieldset>
+            @if (!creating)
+            {
+            <details open>
+                <summary> @session </summary>
+                @Helper.SelectionLists("SelectedCoursesId", (SelectList)ViewBag.Registrations, (SelectList)ViewBag.Courses)
+            </details>
+            }
+
             <input id="submit" type="submit" value="Enregistrer" class="btn btn-primary" style="display:none">
         </details>
     </div>

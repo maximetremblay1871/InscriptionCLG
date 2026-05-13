@@ -2,13 +2,31 @@
 
 @if (Model != null)
 {
+    List<Allocation> Allocation = Model.Allocations;
+    Allocation = Allocation.OrderBy(c => c.Course.Session).ToList();
+    Dictionary<int, List<Course>> courses = new Dictionary<int, List<Course>>();
     bool first = true;
     string open = first ? "open" : "";
     first = false;
     double experience;
     experience = (DateTime.Now - Model.StartDate).TotalDays / 365.25;
-    
-  
+    foreach (var allocation in Allocation)
+    {
+        if (allocation != null)
+        {
+            if (courses.ContainsKey(allocation.Year))
+            {
+                courses[allocation.Year].Add(allocation.Course);
+            }
+            else
+            {
+                courses.Add(allocation.Year, new List<Course> { allocation.Course });
+            }
+        }
+    }
+
+
+
     <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
         <details @open>
             <summary>@Model.FirstName  @Model.LastName</summary>
@@ -45,10 +63,33 @@
 
             </dl>
         </details>
+    </div>
+    <hr />
+    <h2>Allocations</h2>
+    if (courses.Count == 0)
+                {
+                    <h4>@Model.FirstName n'est pas encore inscrit à un cours</h4>
+                }
+    foreach (var session in courses)
+    {
+        <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+            <details @open>
+                <summary>Session @session.Key</summary>
+                @foreach (var course in session.Value)
+                {
+                    <span>[@course.Session]</span>
+                    <a href="/Courses/Details/@course.Id" title="Voir les détails de @course.Title" style="color:blue;">@course.Code </a>
+                    <span>@course.Title</span>
+                    <br />
+                }
+            </details>
         </div>
 
- }
+    }
+
+
+}
 else
-            {
-                <h2 style="color:red">Ce prof a été effacé...</h2>
-            }
+{
+    <h2 style="color:red">Ce prof a été effacé...</h2>
+}

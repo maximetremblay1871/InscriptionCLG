@@ -2,34 +2,74 @@
 
 @if (Model != null)
 {
+    bool first = true;
+    string open = first ? "open" : "";
+    List<InscriptionCLG.Models.Registration> Registrations = Model.Registrations;
+    Dictionary<int, List<Course>> courses = new Dictionary<int, List<Course>>();
+
+    foreach (InscriptionCLG.Models.Registration registration in Registrations)
+    {
+        if (courses.ContainsKey(registration.Year))
+        {
+            courses[registration.Year].Add(registration.Course);
+        }
+        else
+        {
+            courses.Add(registration.Year, new List<Course> { registration.Course });
+        }
+    }
+
     int connectedId = Models.User.ConnectedUser.Id;
     {
-        <dl>
-            <dd class="description">
-                @Model.Description
-            </dd>
-            <dt>
-                Catégorie
-            </dt>
-
-            <dd>
-                @Model.Category
-            </dd>
-
-            <dt>
-                Date de publication
-            </dt>
-
-            <dd>
-                @Helper.When(Model.PublishDate)
-            </dd>
-            <dt>
-                Ajouté par
-            </dt>
-
-            <dd class="owner" ownerid="@Model.OwnerId">
-                @Helper.AvatarUser(Model.Owner)
-            </dd>
-        </dl>
+        <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+            <details @open>
+                <summary>
+                    <img class="icon small_icon" src="~/Content/UI-Images/graduation-cap.png" />
+                    @Model.Fullname
+                </summary>
+                <dl>
+                    <dd>
+                        <img class="icon small_icon" src="~/Content/UI-Images/barcode.png" />
+                        @Model.Code
+                    </dd>
+                    <dd>
+                        <img class="icon small_icon" src="~/Content/UI-Images/phone.png" />
+                        @Model.Phone
+                    </dd>
+                    <dd>
+                        <img class="icon small_icon" src="~/Content/UI-Images/courriel.png" />
+                        @Model.Email
+                    </dd>
+                    <dd>
+                        <img class="icon small_icon" src="~/Content/UI-Images/cake-candles.png" />
+                        @Model.BirthDate
+                    </dd>
+                </dl>
+            </details>
+        </div>
+        <hr />
+        <h2>Inscriptions</h2>
+        if (courses.Count == 0)
+        {
+            <h4>@Model.Fullname n'est pas inscrit à un cours</h4>
+        }
+        else
+        {
+            foreach (var session in courses)
+            {
+            <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+                <details @open>
+                    <summary> @session.Key</summary>
+                    @foreach (var course in session.Value)
+                    {
+                        <span>[@course.Session]</span>
+                        <a href="/Courses/Details/@course.Id" title="Voir les détails de @course.Title" style="color:blue;">@course.Code </a>
+                        <span>@course.Title</span>
+                        <br />
+                    }
+                </details>
+            </div>
+            }
+        }
     }
 }

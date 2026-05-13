@@ -126,6 +126,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Allocation.cs" />
+    <Compile Include="Models\AllocationsRepository.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CoursesRepository.cs" />
     <Compile Include="Models\EmailView.cs" />
@@ -134,11 +135,14 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\LoginsRepository.cs" />
+    <Compile Include="Models\NextSession.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\NotificationsRepository.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\RenewPasswordView.cs" />
+    <Compile Include="Models\SelectListUtilities.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\RegistrationRepository.cs" />
     <Compile Include="Models\StudentsRepository.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeachersRepository.cs" />
@@ -158,14 +162,16 @@
     <Content Include="Content\media.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\popup.css" />
-    <Content Include="Content\Selections.css" />
+    <Content Include="Content\selections.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\UI-Images\Abort.png" />
     <Content Include="Content\UI-Images\Accept.png" />
     <Content Include="Content\UI-Images\admin.png" />
     <Content Include="Content\UI-Images\barcode.png" />
+    <Content Include="Content\UI-Images\cake-candles.png" />
     <Content Include="Content\UI-Images\clg.png" />
     <Content Include="Content\UI-Images\courriel.png" />
+    <Content Include="Content\UI-Images\graduation-cap.png" />
     <Content Include="Content\UI-Images\Loading_icon.gif" />
     <Content Include="Content\UI-Images\Masked.png" />
     <Content Include="Content\UI-Images\na.png" />
@@ -279,6 +285,7 @@
     <Content Include="Views\Courses\CourseForm.cshtml" />
     <Content Include="Views\Courses\SessionChange.cshtml" />
     <Content Include="Views\Courses\SessionForm.cshtml" />
+    <Content Include="Views\Students\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,7 @@ using Models;
 using DAL;
 using System.Web.Mvc;
 using static Controllers.AccessControl;
+using InscriptionCLG.Models;
 namespace Controllers
 {
     [UserAccess(Models.Access.View)]
@@ -113,6 +114,8 @@ namespace Controllers
             if (id != 0)
             {
                 Course Course = DB.Courses.Get(id);
+                ViewBag.Registrations = Course.RegisteredStudentSelectList;
+                ViewBag.Courses = DB.Students.CoursesToSelectList;
                 if (Course != null)
                 {
                     return View(Course);
@@ -123,14 +126,17 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Edit(Course Course)
+        public ActionResult Edit(Course Course, List<int> selectedCoursesId)
         {
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             Course storedCourse = DB.Courses.Get(id);
             if (storedCourse != null)
             {
                 Course.Id = id;
-                DB.Courses.Update(Course);
+                System.Diagnostics.Debug.WriteLine(
+    selectedCoursesId == null ? "NULL" : string.Join(",", selectedCoursesId)
+);
+                DB.Courses.Update(Course, selectedCoursesId);
             }
             return RedirectToAction("Details/" + id);
         }
@@ -186,6 +192,18 @@ namespace Controllers
         {
             Session["CurrentYear"] = SessionYear;
             Session["CurrentSession"] = SessionSession;
+            DateTime newDate;
+            if (SessionSession == "Automne")
+            {
+                newDate = new DateTime(SessionYear, 9, 1);
+                NextSession.CurrentDate = newDate;
+            }
+            else if (SessionSession == "Hiver")
+            {
+                newDate = new DateTime(SessionYear, 1, 1);
+                NextSession.CurrentDate = newDate;
+            }
+            
             return RedirectToAction("List", "Students");
         }
 

@@ -49,6 +49,11 @@ namespace Models
         {
             return base.Delete(Id);
         }
+        public bool Update(Teacher teacher, List<int> selectedCoursesId)
+        {
+            teacher.UpdateAllocations(selectedCoursesId);
+            return Update(teacher);
+        }
        
     }
 }

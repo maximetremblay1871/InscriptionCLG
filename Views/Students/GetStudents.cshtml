@@ -14,14 +14,12 @@
             <summary>Cohorte @year</summary>
             @foreach (var student in students)
             {
-                <div class="StudentListLayout">
-                    <a href="@Url.Action("Details", new {id = student.Id})">
-                        <div style="display:flex">
-                            <span class="studentCode">@student.Code</span>
-                            <div class="studentName">@student.LastName @student.FirstName</div>
-                        </div>
-                    </a>
-                </div>
+        
+                    <a href="@Url.Action("Details", new {id = student.Id})">@student.Code</a>
+                    <span class="studentName">@student.LastName @student.FirstName</span>
+                    <br />
+
+
             }
         </details>    
     }

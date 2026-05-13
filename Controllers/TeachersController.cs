@@ -112,6 +112,8 @@ namespace Controllers
             if (id != 0)
             {
                 Teacher Teacher = DB.Teachers.Get(id);
+                ViewBag.Allocations = Teacher.NextSessionCoursesToSelectList;
+                ViewBag.Courses = DB.Courses.NextSessionToSelectListTeacher;
                 if (Teacher != null)
                 {
                     return View(Teacher);
@@ -122,14 +124,14 @@ namespace Controllers
         [UserAccess(Models.Access.Write)]
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Edit(Teacher Teacher)
+        public ActionResult Edit(Teacher Teacher, List<int> selectedCoursesId)
         {
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
             Teacher storedTeacher = DB.Teachers.Get(id);
             if (storedTeacher != null)
             {
                 Teacher.Id = id;
-                DB.Teachers.Update(Teacher);
+                DB.Teachers.Update(Teacher,selectedCoursesId);
             }
             return RedirectToAction("Details/" + id);
         }

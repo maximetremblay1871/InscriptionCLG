@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace InscriptionCLG.Models
 {
-    public class Registration
+    public class Registration : DAL.Record
     {
-        public int Id { get; set; }
+        public Registration()
+        {
+            Year = NextSession.Year;
+        }
+
         public int StudentId { get; set; }
-
         public int CourseId { get; set; }
-
         public int Year { get; set; }
+        [JsonIgnore] public Course Course => DAL.DB.Courses.Get(CourseId);
+        [JsonIgnore] public Student Student => DAL.DB.Students.Get(StudentId);
+        [JsonIgnore] public bool IsNextSession => Year == NextSession.Year && NextSession.ValidSessions.Contains(Course.Session);
     }
 }

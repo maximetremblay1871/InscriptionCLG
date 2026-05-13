@@ -1,13 +1,26 @@
 ﻿using DAL;
+using InscriptionCLG.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Models
 {
     public class StudentsRepository : Repository<Student>
+        
     {
+        [JsonIgnore]
+        public List<Student> StudentNextSession => ToList();
+
+        [JsonIgnore]
+        public SelectList CoursesToSelectList => SelectListUtilities<Student>.Convert(ToList().ToList(), "Caption");
+
+        [JsonIgnore]
+        public SelectList NextSessionToSelectList => SelectListUtilities<Student>.Convert(StudentNextSession, "Caption");
+
         public List<int> StudentsYears()
         {
             List<int> years = new List<int>();
@@ -65,7 +78,21 @@ namespace Models
             Student storedStudent = Get(student.Id);
             if (student.Code != storedStudent.Code) // new code
                 student.Code = GenerateCodeStudent();
-            return base.Update(student);
+            if (storedStudent != null)
+            {
+                storedStudent.FirstName = student.FirstName;
+                storedStudent.LastName = student.LastName;
+                storedStudent.Email = student.Email;
+                storedStudent.Phone = student.Phone;
+                storedStudent.BirthDate = student.BirthDate;
+            }
+            return base.Update(storedStudent);
+        }
+
+        public bool Update(Student student, List<int> selectedCoursesId)
+        {
+            student.UpdateRegistrations(selectedCoursesId);
+            return Update(student);
         }
     }
 }

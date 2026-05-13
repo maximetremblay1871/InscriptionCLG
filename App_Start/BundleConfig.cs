@@ -8,10 +8,11 @@ namespace InscriptionCLG
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                            "~/Scripts/jquery-{version}.js",
                             "~/Scripts/validation.js",
                             "~/Scripts/jquery-maskedinput.js",
                             "~/Scripts/bootbox.js",
-                            "~/Scripts/selection.js",
+                            "~/Scripts/selections.js",
                             "~/Scripts/SiteScripts.js",
                             "~/Scripts/session.js",
                             "~/Scripts/SiteNotificationsHandler.js",
@@ -22,7 +23,7 @@ namespace InscriptionCLG
                         "~/Content/_layout.css",
                         "~/Content/Accounts.css",
                         "~/Content/popup.css",
-                        "~/Content/Selection.css",
+                        "~/Content/selections.css",
                         "~/Content/site.css",
                         "~/Content/menu.css", 
                         "~/Content/media.css",
