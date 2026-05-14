@@ -1,0 +1,47 @@
+﻿@model Models.Student
+
+@if (Model != null)
+{
+    bool first = true;
+    string open = first ? "open" : "";
+    List<InscriptionCLG.Models.Registration> Registrations = Model.Registrations;
+    Dictionary<int, List<Course>> courses = new Dictionary<int, List<Course>>();
+    foreach (InscriptionCLG.Models.Registration registration in Registrations)
+    {
+        if (courses.ContainsKey(registration.Year))
+        {
+            courses[registration.Year].Add(registration.Course);
+        }
+        else
+        {
+            courses.Add(registration.Year, new List<Course> { registration.Course });
+        }
+    }
+    <h2>Inscriptions</h2>
+    if (courses.Count == 0)
+    {
+        <h4>@Model.Fullname n'est pas inscrit à un cours</h4>
+    }
+    else
+    {
+        foreach (var session in courses)
+        {
+            <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
+                <details @open>
+                    <summary> @session.Key</summary>
+                    @foreach (var course in session.Value)
+                    {
+                        <span>[@course.Session]</span>
+                        <a href="/Courses/Details/@course.Id" title="Voir les détails de @course.Title" style="color:blue;">@course.Code </a>
+                        <span>@course.Title</span>
+                        <br />
+                    }
+                </details>
+            </div>
+        }
+    }
+}
+else
+{
+
+}

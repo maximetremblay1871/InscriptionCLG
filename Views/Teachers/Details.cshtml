@@ -6,12 +6,18 @@
 <div id="detailsPanel" class="detailsPanel">
     <!-- auto refreshed -->
 </div>
+<div id="detailsPanel_2" class="detailsPanel">
+    <!-- auto refreshed -->
+</div>
 
 @section Scripts {
     <script>
+let teacherDetails_ARP = null;
+let teacherDetails_ARP2 = null;
         $(() => {
             newSession(600);
             teacherDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Teachers/GetTeacherDetails", 5, mediaDetailsPostRefresh);
+            teacherDetails_ARP2 = new AutoRefreshedPanel("detailsPanel_2", "/Teachers/GetTeacherDetails_2", 5, mediaDetailsPostRefresh);
         })
 
         function mediaDetailsPostRefresh() {

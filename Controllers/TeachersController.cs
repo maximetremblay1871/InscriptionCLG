@@ -90,6 +90,7 @@ namespace Controllers
             return RedirectToAction("List");
 
         }
+
         [UserAccess(Models.Access.Write)]
         public ActionResult Create()
         {
@@ -145,6 +146,7 @@ namespace Controllers
                 if (Teacher != null)
                 {
                     DB.Teachers.Delete(id);
+                    DB.Allocations.DeleteAllocationTeacher(id);
                     return RedirectToAction("List");
                 }
             }
@@ -159,7 +161,26 @@ namespace Controllers
 
                 int teacherId = (int)Session["CurrentId"];
                 Teacher teacher = DB.Teachers.Get(teacherId);
-                if (DB.Teachers.HasChanged || forceRefresh)
+                if (DB.Teachers.HasChanged || DB.Allocations.HasChanged || forceRefresh)
+                {
+                    return PartialView(teacher);
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                return Content("Erreur interne" + ex.Message, "text/html");
+            }
+        }
+        public ActionResult GetTeacherDetails_2(bool forceRefresh = false)
+        {
+            try
+            {
+                InitSessionVarables();
+
+                int teacherId = (int)Session["CurrentId"];
+                Teacher teacher = DB.Teachers.Get(teacherId);
+                if (DB.Teachers.HasChanged || DB.Allocations.HasChanged || forceRefresh)
                 {
                     return PartialView(teacher);
                 }
