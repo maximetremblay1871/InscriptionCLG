@@ -2,7 +2,7 @@
 @{
     bool creating = ViewBag.Action == "Create";
     string information = creating ? "Informations" : "Informations - [" + @Model.Code + "]";
-    string session = "Inscriptions: " + InscriptionCLG.Models.NextSession.Caption;
+    string currentSession = Session["CurrentSession"] != null ? (string)Session["CurrentSession"] : "Hiver";
 }
 
 @using (Html.BeginForm())
@@ -77,7 +77,7 @@
     if (!creating)
     {
     <details open>
-        <summary> @session </summary>
+        <summary> @currentSession </summary>
             @Helper.SelectionLists("SelectedCoursesId", (SelectList)ViewBag.Registrations, (SelectList)ViewBag.Courses)
     </details>
     }

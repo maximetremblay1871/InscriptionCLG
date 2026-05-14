@@ -2,7 +2,7 @@
 @{
     bool creating = ViewBag.Action == "Create";
     string session;
-    if (Model.Session % 2 == 1)
+    if (Model.Session % 2 == 0)
     {
         session = "Inscriptions : Session Automne " + InscriptionCLG.Models.NextSession.CurrentDate.Year;
     }

@@ -12,7 +12,7 @@ namespace Models
     public class CoursesRepository : Repository<Course>
     {
         [JsonIgnore]
-        public List<Course> CoursesNextSession => ToList().Where(c => NextSession.ValidSessions.Contains(c.Session)).ToList();
+        public List<Course> CoursesNextSession => ToList().Where(c => !NextSession.ValidSessions.Contains(c.Session)).ToList();
 
         [JsonIgnore]
         public SelectList CoursesToSelectList => SelectListUtilities<Course>.Convert(ToList().ToList(), "Caption");
@@ -20,7 +20,7 @@ namespace Models
         public SelectList NextSessionToSelectList => SelectListUtilities<Course>.Convert(CoursesNextSession, "Caption");
         [JsonIgnore]
         public List<Course> CoursesNextSessionTeacher => ToList().Where(c => c.Allocations.Count == 0).
-        Where(c => NextSession.ValidSessions.Contains(c.Session)).ToList();
+        Where(c => !NextSession.ValidSessions.Contains(c.Session)).ToList();
         [JsonIgnore]
         public SelectList NextSessionToSelectListTeacher => SelectListUtilities<Course>.Convert(CoursesNextSessionTeacher, "Caption");
 
