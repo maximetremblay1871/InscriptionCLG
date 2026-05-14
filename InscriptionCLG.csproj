@@ -169,7 +169,6 @@
     <Content Include="Content\UI-Images\admin.png" />
     <Content Include="Content\UI-Images\barcode.png" />
     <Content Include="Content\UI-Images\cake-candles.png" />
-    <Content Include="Content\UI-Images\clg.png" />
     <Content Include="Content\UI-Images\courriel.png" />
     <Content Include="Content\UI-Images\graduation-cap.png" />
     <Content Include="Content\UI-Images\Loading_icon.gif" />
@@ -242,6 +241,7 @@
     <Content Include="Views\Accounts\LoginsJournal.cshtml" />
     <Content Include="Views\Accounts\ManageUsers.cshtml" />
     <Content Include="Views\Accounts\GetUsers.cshtml" />
+    <None Include="Properties\PublishProfiles\Registraire201827013 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Wikimedia-2026 - Web Deploy.pubxml" />
     <Content Include="Views\Students\List.cshtml" />
     <Content Include="Views\Students\GetStudents.cshtml" />
@@ -270,6 +270,7 @@
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\GetStudentDetails_2.cshtml" />
     <Content Include="Views\Teachers\GetTeacherDetails_2.cshtml" />
+    <None Include="Properties\PublishProfiles\Wikimedia201827013 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
