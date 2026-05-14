@@ -216,14 +216,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="App_Code\Helper.cshtml" />
-    <Content Include="App_Data\Commentlikes.json" />
-    <Content Include="App_Data\Comments.json" />
     <Content Include="App_Data\Courses.json" />
     <Content Include="App_Data\Events.json" />
-    <Content Include="App_Data\Likes.json" />
     <Content Include="App_Data\Logins.json" />
-    <Content Include="App_Data\Medias.json" />
-    <Content Include="App_Data\MediasAzure.json" />
     <Content Include="App_Data\Notifications.json" />
     <Content Include="App_Data\RenewPasswordCommands.json" />
     <Content Include="App_Data\Students.json" />
@@ -247,20 +242,7 @@
     <Content Include="Views\Accounts\LoginsJournal.cshtml" />
     <Content Include="Views\Accounts\ManageUsers.cshtml" />
     <Content Include="Views\Accounts\GetUsers.cshtml" />
-    <Content Include="Views\Medias\About.cshtml" />
-    <Content Include="Views\Medias\Create.cshtml" />
-    <Content Include="Views\Medias\Details.cshtml" />
-    <Content Include="Views\Medias\Edit.cshtml" />
-    <Content Include="Views\Medias\GetMedias.cshtml" />
-    <Content Include="Views\Medias\GetMediasCategoriesList.cshtml" />
-    <Content Include="Views\Medias\List.cshtml" />
-    <Content Include="Views\Medias\MediaForm.cshtml" />
-    <Content Include="Views\Medias\GetMediasOwnersList.cshtml" />
     <None Include="Properties\PublishProfiles\Wikimedia-2026 - Web Deploy.pubxml" />
-    <Content Include="Views\Medias\GetMediaLikes.cshtml" />
-    <Content Include="Views\Medias\GetMediaDetails_2.cshtml" />
-    <Content Include="Views\Medias\RenderComments.cshtml" />
-    <Content Include="Views\Medias\GetMediaDetails_1.cshtml" />
     <Content Include="Views\Students\List.cshtml" />
     <Content Include="Views\Students\GetStudents.cshtml" />
     <Content Include="Views\Students\GetStudentsYearsList.cshtml" />
