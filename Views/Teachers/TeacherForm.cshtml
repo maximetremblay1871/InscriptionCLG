@@ -8,7 +8,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
-    bool first = false;
+    bool first = true;
     string open = first ? "open" : "";
     first = false;
     <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
@@ -36,11 +36,12 @@
             </fieldset>
             <fieldset>
                 <label for="StartDate" class="form-label">Date d'embauche </label>
-                <input name="StartDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM-dd")"
+                <input name="StartDate" class="form-control" value="@(Model.StartDate == DateTime.MinValue ? "" : Model.StartDate.ToString("yyyy-MM-dd"))"
                        required
                        type="date"
                        max="@DateTime.Now.ToString("yyyy-MM-dd")"
                        RequireMessage="Veuillez entrer une date"
+                       placeholder="@DateTime.Now.ToString("yyyy-MM-dd")"
                        InvalidMessage="Date invalide" />
             </fieldset>
             <fieldset>

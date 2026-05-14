@@ -41,8 +41,7 @@ namespace Models
         public override bool Update(Teacher teacher)
         {
             Teacher storedTeacher = Get(teacher.Id);
-            if (teacher.Code != storedTeacher.Code) // new code
-                teacher.Code = GenerateCodeTeacher();
+            teacher.Code = storedTeacher.Code;
             return base.Update(teacher);
         }
         public override bool Delete(int Id)

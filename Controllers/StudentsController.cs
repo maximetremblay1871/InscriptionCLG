@@ -25,6 +25,7 @@ namespace Controllers
             if (Session["SearchString"] == null) Session["SearchString"] = "";
             if (Session["SortAscending"] == null) Session["SortAscending"] = false;
             if (Session["code"] == null) Session["code"] = "";
+            if (Session["CurrentName"] == null) Session["currentName"] = "";
             //ValidateSelectedCategory();
         }
 
@@ -32,6 +33,7 @@ namespace Controllers
         {
             Session["CurrentId"] = 0;
             Session["CurrentStudentTitle"] = "";
+            Session["CurrentName"] = "";
         }
         
         /*
@@ -76,7 +78,7 @@ namespace Controllers
 
                 int studentId = (int)Session["CurrentId"];
                 Student student = DB.Students.Get(studentId);
-                if (DB.Students.HasChanged || forceRefresh)
+                if (DB.Students.HasChanged || DB.Registrations.HasChanged || forceRefresh)
                 {
                     return PartialView(student);
                 }
@@ -86,6 +88,17 @@ namespace Controllers
             {
                 return Content("Erreur interne" + ex.Message, "text/html");
             }
+        }
+        public ActionResult GetStudentDetails_2(bool forceRefresh = false)
+        {
+            InitSessionVariables();
+            int studentId = (int)Session["CurrentId"];
+            Student student = DB.Students.Get(studentId);
+            if (DB.Courses.HasChanged || DB.Registrations.HasChanged ||DB.Students.HasChanged || forceRefresh)
+            {
+                return PartialView(student);
+            }
+            return null;
         }
         public ActionResult GetStudents(bool forceRefresh = false)
         {
@@ -189,7 +202,7 @@ namespace Controllers
             if (student != null)
             {
                 //if (Media.Shared || isOwner)
-                
+                Session["CurrentName"] = student.Fullname;
                 return View(student);
                 //return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
             }
@@ -215,7 +228,7 @@ namespace Controllers
         }
 
 
-        [UserAccess(Access.Admin)]
+        [UserAccess(Access.Write)]
         public ActionResult Edit()
         {
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
@@ -232,7 +245,7 @@ namespace Controllers
         }
 
         [HttpPost]
-        [UserAccess(Access.Admin)]
+        [UserAccess(Access.Write)]
         public ActionResult Edit(Student student, List<int> selectedCoursesId)
         {
             int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
@@ -248,6 +261,23 @@ namespace Controllers
                 return RedirectToAction("Details/" + id);
             }
             return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
+        }
+        [UserAccess(Models.Access.Write)]
+        public ActionResult Delete()
+        {
+            int id = Session["CurrentId"] != null ? (int)Session["CurrentId"] : 0;
+            if (id != 0)
+            {
+                Student Student = DB.Students.Get(id);
+                if (Student != null)
+                {
+                    DB.Students.Delete(id);
+                    DB.Registrations.DeleteRegistrationStudent(id);
+                    return RedirectToAction("List");
+                }
+            }
+            return Redirect("/Accounts/Login?message=Accès illégal! &success=false");
+
         }
 
 

@@ -8,7 +8,10 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken() <!-- Injection de jeton anti contrefaçon de formulaire -->
-    <details>
+    bool first = true;
+    string open = first ? "open" : "";
+    first = false;
+    <details @open>
         <summary> @information </summary>
 
         <fieldset>
@@ -35,8 +38,10 @@
 
         <fieldset>
             <label for="BirthDate" class="form-label">Date de naissance </label>
-            <input name="BirthDate" class="form-control" value="@Model.BirthDate"
+            <input name="BirthDate" class="form-control" value="@(Model.BirthDate == DateTime.MinValue ? "" : Model.BirthDate.ToString("yyyy-MM-dd"))"
                    required
+                   type="date"
+                   max="@DateTime.Now.ToString("yyyy-MM-dd")"
                    RequireMessage="Veuillez entrer une date"
                    InvalidMessage="Date invalide" />
         </fieldset>

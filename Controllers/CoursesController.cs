@@ -31,7 +31,7 @@ namespace Controllers
             try
             {
                 IEnumerable<Course> result = null;
-                if (DB.Teachers.HasChanged || DB.Students.HasChanged || DB.Courses.HasChanged || forceRefresh)
+                if (DB.Teachers.HasChanged || DB.Students.HasChanged || DB.Courses.HasChanged || DB.Allocations.HasChanged || DB.Registrations.HasChanged || forceRefresh)
                 {
                     InitSessionVarables();
                     bool search = (bool)Session["Search"];
@@ -150,6 +150,9 @@ namespace Controllers
                 if (Course != null)
                 {
                     DB.Courses.Delete(id);
+                    DB.Registrations.DeleteRegistrationCourse(id);
+                    DB.Allocations.DeleteAllocationCourse(id);
+
                     return RedirectToAction("List");
                 }
             }
@@ -164,7 +167,7 @@ namespace Controllers
 
                 int courseId = (int)Session["CurrentId"];
                 Course course = DB.Courses.Get(courseId);
-                if (DB.Courses.HasChanged || forceRefresh)
+                if (DB.Courses.HasChanged || forceRefresh || DB.Registrations.HasChanged || DB.Allocations.HasChanged)
                 {
                     return PartialView(course);
                 }

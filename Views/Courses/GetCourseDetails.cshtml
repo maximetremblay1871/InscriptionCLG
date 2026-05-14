@@ -48,8 +48,10 @@
     {
         <h4>Personne est inscrit à @Model.Title</h4>
     }
-    foreach (var session in students)
+    else
     {
+        foreach (var session in students)
+        {
         <div style="display:grid; grid-template-columns:auto 20px; align-items:start;">
             <details @open>
                 <summary>
@@ -58,22 +60,26 @@
                     {
                         <a href="/Teachers/Details/@Teacher.Id" title="Voir les détails de @Teacher.LastName">@Teacher.LastName @Teacher.FirstName</a>
                     }
-else
+                    else
                     {
-                        
+
                     }
                 
                 </summary>
                 @foreach (var student in session.Value)
                 {
+                    if (student != null)
+                    {
                     <a href="/Students/Details/@student.Id" title="Voir les détails de @student.Fullname" style="color:blue;">@student.Code </a>
                     <span>@student.LastName</span>
                     <span>@student.FirstName</span>
                     <br />
+                    }
                 }
             </details>
         </div>
 
+        }
     }
 }
 else

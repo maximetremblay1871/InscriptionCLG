@@ -7,15 +7,21 @@
 <div id="detailsPanel" class="detailsPanel">
     <!-- auto refreshed -->
 </div>
+<div id="detailsPanel_2" class="detailsPanel">
+
+</div>
 
 @section Scripts {
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        let mediaDetails_ARP = null;
+let mediaDetails_ARP = null;
+let mediaDetails_ARP2 = null;
         let scrollAnimationSpeed = 1000;
         $(() => {
             newSession(600);
+
             mediaDetails_ARP = new AutoRefreshedPanel("detailsPanel", "/Students/GetStudentDetails", 5, studentDetailsPostRefresh);
+            mediaDetails_ARP2 = new AutoRefreshedPanel("detailsPanel_2", "/Students/GetStudentDetails_2", 5);
         })
 
         
